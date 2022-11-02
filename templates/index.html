@@ -1,3 +1,23 @@
-<DOCTYPE HTML>
+{% extends 'base.html' %}
 
+{% block head %}
+<h1>ZWOLT</h1>
+{% endblock %}
+
+{% block body %}
+<title id="maintitle">ZWOLT</title>
+<h1>ZWOLT kuljetuspalvelu</h1>
+<b>Tervetuloa!</b>
+<b>Kirjaudu sisään:</b>
+<form action="/front" method="POST">
+    Käyttäjätunnus:
+    <input type="text" name="name">
+    <br>
+    Salasana:      
+    <input type="text" name="password">
+    <br>
+    <input type="submit" value="Kirjaudu">
+    <input type="submit" value="Rekisteröidy">
+    </form>
+{% endblock %}
 

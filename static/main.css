@@ -1,3 +1,22 @@
 body {
+    background-color: lightslategrey;
+    text-align: center;   
+}
+form {
+    align-items: baseline;
+    font-family: monospace;
+}
+input {
+    border: none;
+    border-radius: 6px;
+    margin: 3px;
+}
+input:hover {
+    cursor:pointer
+}
+#maintitle {
     font-family: Shanti;
+    font-weight: bold;
+    font-size:larger;
+    margin: 20px;
 }
