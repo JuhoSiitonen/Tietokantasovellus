@@ -1,0 +1,2 @@
+# Tietokantasovellus
+Tietokantasovellus kurssin suorittamiseen toteutettu Flask webbisovellus
