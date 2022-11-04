@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<title>Rekisteröidy</title>
+<h1>Voit rekisteröityä luomalla käyttäjätunnuksen ja salasanan</h1>
+<form action="/register" method="POST">
+    Luo käyttäjätunnus:
+    <input type="text" name="username">
+    <br>
+    Salasana:      
+    <input type="text" name="password">
+    <br>
+    <input type="submit" value="Rekisteröi">
+
+</form>
+{% endblock %}
