@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block body %}
+{% if session.user_id %}
 <title>Tilaa ruokaa!</title>
 <h1>Tilaa ruokaa!</h1>
 <p>{{ username }}</p>
+<br>
+<a href="/restaurants">Ravintolat lähelläsi</a>
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
 {% endblock %}

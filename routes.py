@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect
 import users
+import restaurants
 
 @app.route("/")
 def index():
@@ -30,4 +31,10 @@ def register():
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register")
         if users.register(username,password):
             return redirect("/front")
+
+@app.route("/restaurants", methods=["GET","POST"])
+def restaurant():
+    if request.method =="GET":
+        list = restaurants.restaurant_list()
+        return render_template("restaurants.html", listing=list)
 

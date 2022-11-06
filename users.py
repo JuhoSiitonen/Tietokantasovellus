@@ -21,3 +21,6 @@ def register(username, password):
     db.session.commit()
     return login(username,password)
 
+def user_id():
+    return session.get("user_id",0)
+

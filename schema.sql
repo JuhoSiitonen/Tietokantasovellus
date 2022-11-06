@@ -1,7 +1,7 @@
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
-	name TEXT UNIQUE,
+	username TEXT UNIQUE,
 	password TEXT,
 	address TEXT,
 	admin BOOLEAN,
@@ -26,7 +26,7 @@ CREATE TABLE orders (
 CREATE TABLE dishes (
     id SERIAL PRIMARY KEY,
 	restaurant_menu INTEGER REFERENCES restaurants,
-	name TEXT,
+	dish_name TEXT,
 	description TEXT,
 	visible BOOLEAN,
 	price INTEGER

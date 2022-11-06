@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<title>Ravintolat</title>
+<h1>Ravintolat lähelläsi</h1>
+<br>
+{% for item in listing %}
+    <li><a href="/restaurants/{{ item.name }}">{{ item.name }}</a></li>
+{% endfor %}
+
+{% endblock %}
