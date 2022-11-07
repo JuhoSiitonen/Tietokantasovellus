@@ -38,3 +38,9 @@ def restaurant():
         list = restaurants.restaurant_list()
         return render_template("restaurants.html", listing=list)
 
+@app.route("/restaurants/<restaurant_id>")
+def dishes(restaurant_id):
+    list = restaurants.dishes_list(restaurant_id)
+    return render_template("dishes.html", listing=list)
+
+

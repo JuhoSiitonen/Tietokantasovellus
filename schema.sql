@@ -25,7 +25,7 @@ CREATE TABLE orders (
 
 CREATE TABLE dishes (
     id SERIAL PRIMARY KEY,
-	restaurant_menu INTEGER REFERENCES restaurants,
+	restaurant_id INTEGER REFERENCES restaurants,
 	dish_name TEXT,
 	description TEXT,
 	visible BOOLEAN,
