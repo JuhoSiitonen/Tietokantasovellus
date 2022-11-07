@@ -8,8 +8,15 @@
 <title>Ravintolat</title>
 <h1>Tilattavat ruoat:</h1>
 <br>
+<form action="/confirmation" method="POST">
 {% for item in listing %}
-    <li>{{ item.dish_name }} {{ item.price }}€</li>
+    <li>
+        <input type="checkbox" name="dish" value="{{ item.id }}"> {{ item.dish_name }} {{ item.price }}€
+    </li>
 {% endfor %}
+<br> Erikoistoiveet: <br>
+<textarea name="message" rows="3" cols="50"></textarea> <br>
+<input type="submit" value="Tilaa">
+</form>
 
 {% endblock %}
