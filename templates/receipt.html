@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id %}
+<title>Kuitti</title>
+<h1></h1>
+<p> Kuitti </p>
+<br>
+Tilauksesi kuitti:
+<br>
+<a href="/front">Palaa etusivulle</a>
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+{% endblock %}

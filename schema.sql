@@ -15,7 +15,7 @@ CREATE TABLE restaurants (
 	address TEXT
 );
 
-CREATE TABLE orders (
+CREATE TABLE receipts (
     id SERIAL PRIMARY KEY,
 	restaurant_id INTEGER REFERENCES restaurants,
 	dishes TEXT,

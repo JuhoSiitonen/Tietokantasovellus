@@ -41,6 +41,22 @@ def restaurant():
 @app.route("/restaurants/<restaurant_id>")
 def dishes(restaurant_id):
     list = restaurants.dishes_list(restaurant_id)
-    return render_template("dishes.html", listing=list)
+    restaurant = restaurants.restaurant_name(restaurant_id)
+    return render_template("dishes.html", listing=list, restaurant=restaurant)
+
+@app.route("/confirmation", methods=["POST"])
+def confirmation():
+    dish = request.form["dish"]
+    orders = restaurants.dish_name(dish)
+    extra_info = request.form["message"]
+    return render_template("confirmation.html", orders=orders, extra_info=extra_info)
+
+@app.route("/receipt", methods=["POST"])
+def receipt():
+    return render_template("receipt.html")
+
+@app.route("/receipt/<receipt_id>")
+def receipt_archive(receipt_id):
+    pass
 
 

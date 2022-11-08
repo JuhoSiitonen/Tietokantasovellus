@@ -6,7 +6,7 @@
 
 {% block body %}
 <title>Ravintolat</title>
-<h1>Tilattavat ruoat:</h1>
+<h1>{{ restaurant[0] }}</h1>
 <br>
 <form action="/confirmation" method="POST">
 {% for item in listing %}
