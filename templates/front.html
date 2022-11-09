@@ -8,9 +8,12 @@
 {% if session.user_id %}
 <title>Tilaa ruokaa!</title>
 <h1>Tilaa ruokaa!</h1>
-<p>{{ username }}</p>
 <br>
 <a href="/restaurants">Ravintolat lähelläsi</a>
+<br>
+<a href="/best_reviews">Parhaiten arvostellut ravintolat</a>
+<br>
+<a href="/logout">Kirjaudu ulos</a>
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>

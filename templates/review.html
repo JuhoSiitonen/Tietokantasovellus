@@ -6,15 +6,18 @@
 
 {% block body %}
 {% if session.user_id %}
-<title>Kuitti</title>
+<title>Arvostele ravintola</title>
 <h1></h1>
-<p> Kuitti </p>
+<p> Arvostele </p>
 <br>
-Tilauksesi kuitti:
+<form action="/review" method="POST">
+<textarea name="text_review" rows="3" cols="50"></textarea> <br>
+<input type="submit" value="Lähetä">
+</form>
 <br>
 <a href="/front">Palaa etusivulle</a>
 <br>
-<a href="/review">Jätä arvostelu ravintolalle</a>
+
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>

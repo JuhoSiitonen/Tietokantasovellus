@@ -15,7 +15,7 @@ def front():
         if users.login(username, password):
             return render_template("front.html")
         else:
-            render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/")
+            return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/")
     else:
         return render_template("front.html")
 
@@ -30,7 +30,7 @@ def register():
         if password != password2:
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register")
         if users.register(username,password):
-            return redirect("/front")
+            return render_template("front.html")
 
 @app.route("/restaurants", methods=["GET","POST"])
 def restaurant():
@@ -58,5 +58,25 @@ def receipt():
 @app.route("/receipt/<receipt_id>")
 def receipt_archive(receipt_id):
     pass
+
+@app.route("/review", methods=["GET", "POST"])
+def review():
+    if request.method == "GET":
+         return render_template("review.html")
+    if request.method == "POST":
+        review = request.form["text_review"]
+        user_id = users.user_id()
+        return render_template("review.html")
+
+@app.route("/best_reviews", methods=["GET"])
+def best_reviews():
+    if request.method == "GET":
+        list = restaurants.best_reviews()
+        return render_template("best_reviews.html", reviews=list)
+
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")
 
 

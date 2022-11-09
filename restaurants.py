@@ -33,7 +33,22 @@ def dish_name(dish_id):
     return result.fetchone()
 
 def create_receipt(dishes, restaurant_id):
-    sql = "INSERT INTO receipts (restaurant_id, dishes, price, additional_info) values (:restaurant_id, :dishes, :price, :additional_info)"
+    sql = "INSERT INTO receipts (restaurant_id, dishes, price, additional_info) VALUES (:restaurant_id, :dishes, :price, :additional_info)"
+    db.session.execute(sql, {"restaurant_id":restaurant_id, "dishes":dishes, "price":price, "additional_info":additional_info})
+
+def create_review(user_id, restaurant_id, review):
+    sql = "INSERT INTO reviews (user_id, restaurant_id, review) VALUES (:user_id, :restaurant_id, :review)"
+    db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "review":review})
+
+def best_reviews():
+    sql ="""
+        SELECT reviews.id, restaurants.id as r_id, restaurants.name, reviews.review 
+        FROM reviews, restaurants
+        WHERE reviews.restaurant_id = restaurants.id
+        """
+    result = db.session.execute(sql)
+    reviews = result.fetchall()
+    return reviews
 
 
     

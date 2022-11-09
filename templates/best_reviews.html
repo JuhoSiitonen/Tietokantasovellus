@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<title>Parhaat Ravintolat</title>
+<h1></h1>
+<br>
+10 Parasta ravintolaa arvostelujen mukaan
+<br>
+Valitse ravintola jonka arvosteluja haluat nähdä:
+
+{% for item in reviews %}
+<form action="/best_reviews/{{ item.id }}" method="POST">
+
+    <li>
+        <input type="radio" name="review" value="{{ item.id }}">{{ item.name }}
+    </li>
+{% endfor %}
+
+<input type="submit" value="Valitse">
+</form>
+
+{% endblock %}

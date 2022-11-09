@@ -24,3 +24,11 @@ def register(username, password):
 def user_id():
     return session.get("user_id",0)
 
+def logout():
+    del session["user_id"]
+
+def user_receipts(user_id):
+    sql = "SELECT * FROM receipts WHERE user_id = :user_id"
+    result = db.session.execute(sql, {"user_id":user_id})
+    receipts = result.fetchall()
+    return receipts
