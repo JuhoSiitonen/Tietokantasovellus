@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<title>Arvostelut</title>
+<h1>Ravintolan ... arvostelut:</h1>
+<br>
+
+<br>
+
+
+{% for item in reviews %}
+
+    <li>
+        {{ item.name }} {{ item.review }}
+    </li>
+{% endfor %}
+
+{% endblock %}
