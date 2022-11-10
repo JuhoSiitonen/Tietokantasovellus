@@ -31,6 +31,8 @@ def register():
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register")
         if users.register(username,password):
             return render_template("front.html")
+        else:
+            return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register")
 
 @app.route("/restaurants", methods=["GET","POST"])
 def restaurant():
@@ -53,11 +55,15 @@ def confirmation():
 
 @app.route("/receipt", methods=["POST"])
 def receipt():
+    restaurants.create_receipt()
     return render_template("receipt.html")
 
-@app.route("/receipt/<receipt_id>")
-def receipt_archive(receipt_id):
-    pass
+@app.route("/receipts/<user_id>")
+def receipt_archive(user_id):
+    receipts = users.user_receipts(user_id)
+    if not receipts:
+        return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front")
+    return render_template("user_receipt.html", receipts=receipts)
 
 @app.route("/review", methods=["GET", "POST"])
 def review():
@@ -73,6 +79,22 @@ def best_reviews():
     if request.method == "GET":
         list = restaurants.best_reviews()
         return render_template("best_reviews.html", reviews=list)
+
+@app.route("/best_reviews/<restaurant_id>", methods=["POST"])
+def restaurant_reviews(restaurant_id):
+    reviews = restaurants.restaurant_reviews(restaurant_id)
+    return render_template("restaurant_reviews.html", reviews=reviews)
+
+@app.route("/reviews/<user_id>")
+def user_reviews(user_id):
+    reviews = users.user_reviews(user_id)
+    if not reviews:
+        return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front")
+    return render_template("user_reviews.html", reviews=reviews)
+
+@app.route("/modify_review/<review_id>")
+def modify_review(review_id):
+    pass
 
 @app.route("/logout")
 def logout():
