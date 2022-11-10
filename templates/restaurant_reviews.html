@@ -6,16 +6,15 @@
 
 {% block body %}
 <title>Arvostelut</title>
-<h1>Ravintolan ... arvostelut:</h1>
+<h1>Ravintolan {{ reviews[0].name }} arvostelut:</h1>
 <br>
 
 <br>
-
 
 {% for item in reviews %}
 
     <li>
-        {{ item.name }} {{ item.review }}
+        {{ item.name }} : {{ item.review }}
     </li>
 {% endfor %}
 

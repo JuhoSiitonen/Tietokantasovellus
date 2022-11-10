@@ -17,12 +17,10 @@ Jos haluat muokata arvostelua valitse arvostelu ja klikkaa valitse
 <form action="/modify_review/{{ item.id }}" method="POST">
 
     <li>
-        <input type="radio" name="review" value="{{ item.id }}">{{ item.name }} 
-        <br>
-        {{ item.review }}
+        <input type="radio" name="review" value="{{ item.id }}">{{ item.name }} : {{ item.review }}
     </li>
 {% endfor %}
-<input type="hidden" value="{{ item.id }}">
+
 <input type="submit" value="Valitse">
 </form>
 
