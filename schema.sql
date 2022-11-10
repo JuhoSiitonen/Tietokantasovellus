@@ -22,6 +22,7 @@ CREATE TABLE receipts (
 	dishes TEXT,
 	price INTEGER,
 	additional_info TEXT
+	created_at TIMESTAMP
 );
 
 CREATE TABLE dishes (
@@ -38,4 +39,5 @@ CREATE TABLE reviews (
 	restaurant_id INTEGER UNIQUE REFERENCES restaurants,
 	review TEXT,
 	visible BOOLEAN,
+	created_at TIMESTAMP
 );
