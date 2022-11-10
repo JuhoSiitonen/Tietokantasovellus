@@ -3,8 +3,8 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
 	username TEXT UNIQUE,
 	password TEXT,
-	address TEXT,
 	admin BOOLEAN,
+	visible BOOLEAN,
 	created_at TIMESTAMP
 );
 
@@ -18,6 +18,7 @@ CREATE TABLE restaurants (
 CREATE TABLE receipts (
     id SERIAL PRIMARY KEY,
 	restaurant_id INTEGER REFERENCES restaurants,
+	user_id INTEGER REFERENCES users,
 	dishes TEXT,
 	price INTEGER,
 	additional_info TEXT
@@ -27,7 +28,6 @@ CREATE TABLE dishes (
     id SERIAL PRIMARY KEY,
 	restaurant_id INTEGER REFERENCES restaurants,
 	dish_name TEXT,
-	description TEXT,
 	visible BOOLEAN,
 	price INTEGER
 );
@@ -35,9 +35,7 @@ CREATE TABLE dishes (
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
 	user_id INTEGER UNIQUE REFERENCES users,
-	restaurant_id INTEGER UNIQUE REFERENCES users,
-	stars INTEGER,
+	restaurant_id INTEGER UNIQUE REFERENCES restaurants,
 	review TEXT,
 	visible BOOLEAN,
-	time_given TIMESTAMP
 );
