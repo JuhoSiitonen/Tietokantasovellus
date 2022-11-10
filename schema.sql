@@ -33,6 +33,11 @@ CREATE TABLE dishes (
 	price INTEGER
 );
 
+CREATE TABLE receiptdishes (
+	receipt_id INTEGER REFERENCES receipts.
+	dish_id INTEGER REFERENCES dishes
+);
+
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
 	user_id INTEGER UNIQUE REFERENCES users,

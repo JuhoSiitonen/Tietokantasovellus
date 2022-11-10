@@ -26,17 +26,17 @@ def dish_name(dish_id):
 
 def create_receipt(order_info, restaurant_id, total_price, extra_info):
     user_id = users.user_id()
-    dishes = ""
-    for item in order_info:
-        dishes += item + ", "
-    dishes = dishes[:-2]
     sql = """
-        INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info, created_at) 
-        VALUES (:restaurant_id, :user_id, :dishes, :price, :additional_info, NOW())
+        INSERT INTO receipts (restaurant_id, user_id, price, additional_info, created_at) 
+        VALUES (:restaurant_id, :user_id, :price, :additional_info, NOW())
         RETURNING id 
         """
-    result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "dishes":dishes, "price":total_price, "additional_info":extra_info})
-    receipt_id = result.fetchone()
+    result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "price":total_price, "additional_info":extra_info})
+    receipt_id = (result.fetchone())[0]
+    for item in order_info:
+        dish_id = int(item)
+        sql = "INSERT INTO receiptdishes (receipt_id, dish_id) VALUES (:receipt_id, :dish_id)"
+        db.session.execute(sql, {"receipt_id":receipt_id, "dish_id":dish_id})
     db.session.commit()
     return receipt_id
 
