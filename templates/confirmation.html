@@ -9,10 +9,21 @@
 <h1>Yhteenveto tilauksestasi:</h1>
 <h1>Tilattavat ruoat:</h1>
 <br>
-{{ orders[0] }} {{ orders[1] }}€
-<br>  
-<p>{{ extra_info }}</p>
+{% for item in orders %}
 <form action="/receipt" method="POST">
+    <li>
+       <input type="hidden" name="orders" value="{{ item[1] }}"> {{ item[1] }} {{ item[2] }}€
+    </li>
+<br>  
+{% endfor %}
+<h1>Erikoistoiveet</h1>
+<br>
+<p>{{ extra_info }}</p>
+<br>
+<h1>Hinta yhteensä: {{ total_price }}€ </h1>
+    <input type="hidden" name="restaurant_id" value="{{ orders[0][3] }}">
+    <input type="hidden" name="total_price" value="{{ total_price }}">
+    <input type="hidden" name="extra_info" value="{{ extra_info }}">
     <input type="submit" value="Vahvista tilaus">
 </form>
 

@@ -14,30 +14,31 @@ def dishes_list(restaurant_id):
     listing = result.fetchall()
     return listing
 
-def confirm_order(orders, restaurant_id):
-    user = users.user_id()
-    order_list = []
-    for item in orders:
-        order_list = order_list + "," + item
-    sql = "INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info) values (:restaurant_id, :user_id, :dishes, :price)"
-    db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "dishes":dishes, "price":price})
-    db.session.commit()
-
 def restaurant_name(restaurant_id):
     sql = "SELECT name FROM restaurants WHERE id=:restaurant_id"
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
     return result.fetchone()
 
 def dish_name(dish_id):
-    sql = "SELECT id, dish_name, price FROM dishes WHERE id=:dish_id"
+    sql = "SELECT id, dish_name, price, restaurant_id FROM dishes WHERE id=:dish_id"
     result = db.session.execute(sql, {"dish_id":dish_id})
     return result.fetchone()
 
-def create_receipt(dishes, restaurant_id):
+def create_receipt(order_info, restaurant_id, total_price, extra_info):
     user_id = users.user_id()
-    sql = "INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info) VALUES (:restaurant_id, :user_id, :dishes, :price, :additional_info)"
-    db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "dishes":dishes, "price":price, "additional_info":additional_info})
+    dishes = ""
+    for item in order_info:
+        dishes += item + ", "
+    dishes = dishes[:-2]
+    sql = """
+        INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info) 
+        VALUES (:restaurant_id, :user_id, :dishes, :price, :additional_info)
+        RETURNING id 
+        """
+    result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "dishes":dishes, "price":total_price, "additional_info":extra_info})
+    receipt_id = result.fetchone()
     db.session.commit()
+    return receipt_id
 
 def create_review(user_id, restaurant_id, review):
     sql = "INSERT INTO reviews (user_id, restaurant_id, review, visibility) VALUES (:user_id, :restaurant_id, :review, TRUE)"

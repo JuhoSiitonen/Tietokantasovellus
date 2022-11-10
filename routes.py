@@ -48,15 +48,24 @@ def dishes(restaurant_id):
 
 @app.route("/confirmation", methods=["POST"])
 def confirmation():
-    dish = request.form["dish"]
-    orders = restaurants.dish_name(dish)
+    dish = request.form.getlist("dish")
+    orders =[]
+    total_price = 0
+    for item in dish:
+        order = restaurants.dish_name(item)
+        orders.append(order)
+        total_price += order[2]
     extra_info = request.form["message"]
-    return render_template("confirmation.html", orders=orders, extra_info=extra_info)
+    return render_template("confirmation.html", orders=orders, extra_info=extra_info, total_price=total_price)
 
 @app.route("/receipt", methods=["POST"])
 def receipt():
-    restaurants.create_receipt()
-    return render_template("receipt.html")
+    order_info = request.form.getlist("orders")
+    restaurant_id = int(request.form["restaurant_id"])
+    total_price = int(request.form["total_price"])
+    extra_info = request.form["extra_info"]
+    receipt = restaurants.create_receipt(order_info, restaurant_id, total_price, extra_info)
+    return render_template("receipt.html", receipt=receipt)
 
 @app.route("/receipts/<user_id>")
 def receipt_archive(user_id):
