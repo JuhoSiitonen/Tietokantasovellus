@@ -72,7 +72,7 @@ def receipt_archive(user_id):
     receipts = users.user_receipts(user_id)
     if not receipts:
         return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front")
-    return render_template("user_receipt.html", receipts=receipts)
+    return render_template("user_receipts.html", receipts=receipts)
 
 @app.route("/review", methods=["GET", "POST"])
 def review():

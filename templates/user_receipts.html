@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<title>Tilaukset</title>
+<h1></h1>
+<br>
+Omat tilaukseni:
+<br>
+{% for item in receipts %}
+    <li>
+        {{ item.dishes }} | {{ item.additional_info }} | {{ item.price }}€
+    </li>
+{% endfor %}
+<br>
+<a href="/front">Palaa takaisin etusivulle</a>
+
+{% endblock %}

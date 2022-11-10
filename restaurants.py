@@ -31,8 +31,8 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
         dishes += item + ", "
     dishes = dishes[:-2]
     sql = """
-        INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info) 
-        VALUES (:restaurant_id, :user_id, :dishes, :price, :additional_info)
+        INSERT INTO receipts (restaurant_id, user_id, dishes, price, additional_info, created_at) 
+        VALUES (:restaurant_id, :user_id, :dishes, :price, :additional_info, NOW())
         RETURNING id 
         """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "dishes":dishes, "price":total_price, "additional_info":extra_info})
@@ -41,7 +41,7 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
     return receipt_id
 
 def create_review(user_id, restaurant_id, review):
-    sql = "INSERT INTO reviews (user_id, restaurant_id, review, visibility) VALUES (:user_id, :restaurant_id, :review, TRUE)"
+    sql = "INSERT INTO reviews (user_id, restaurant_id, review, visibility, created_at) VALUES (:user_id, :restaurant_id, :review, TRUE, NOW())"
     db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "review":review})
     db.session.commit()
 
