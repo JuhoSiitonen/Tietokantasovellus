@@ -15,7 +15,7 @@ def front():
         if users.login(username, password):
             return render_template("front.html")
         else:
-            return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/")
+            return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/", link_txt="Yritä uudelleen")
     else:
         return render_template("front.html")
 
@@ -28,11 +28,11 @@ def register():
         password = request.form["password"]
         password2 = request.form["password2"]
         if password != password2:
-            return render_template("error.html", txt="Salasanat eivät täsmää", link="/register")
+            return render_template("error.html", txt="Salasanat eivät täsmää", link="/register", link_txt="Yritä uudelleen")
         if users.register(username,password):
             return render_template("front.html")
         else:
-            return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register")
+            return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
 
 @app.route("/restaurants", methods=["GET","POST"])
 def restaurant():
@@ -69,9 +69,11 @@ def receipt():
 
 @app.route("/receipts/<user_id>")
 def receipt_archive(user_id):
-    receipts = users.user_receipts(user_id)
+    if int(user_id) != users.user_id():
+        return render_template("error.html", txt="", link="/front")
+    receipts, receipt_dishes = users.user_receipts(user_id)
     if not receipts:
-        return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front")
+        return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front", link_txt="Takaisin etusivulle")
     return render_template("user_receipts.html", receipts=receipts)
 
 @app.route("/review", methods=["GET", "POST"])
@@ -98,7 +100,7 @@ def restaurant_reviews(restaurant_id):
 def user_reviews(user_id):
     reviews = users.user_reviews(user_id)
     if not reviews:
-        return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front")
+        return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front", link_txt="Takaisin etusivulle")
     return render_template("user_reviews.html", reviews=reviews)
 
 @app.route("/modify_review/<review_id>")
