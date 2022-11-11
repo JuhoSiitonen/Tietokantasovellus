@@ -32,16 +32,31 @@ def logout():
     del session["user_id"]
 
 def user_receipts(user_id):
-    sql = "SELECT * FROM receipts WHERE user_id = :user_id"
+    sql = """
+        SELECT r.id, restaurants.name, r.price, r.additional_info, r.created_at 
+        FROM receipts as r, restaurants 
+        WHERE user_id = :user_id AND r.restaurant_id = restaurants.id 
+        ORDER BY r.created_at
+        """
     result = db.session.execute(sql, {"user_id":user_id})
     receipts = result.fetchall()
     return receipts
+
+def receipt_dishes(receipt_id):
+    sql = """
+        SELECT r.receipt_id, d.dish_name, d.price FROM receiptdishes as r, dishes as d 
+        WHERE r.dish_id = d.id AND r.receipt_id = :receipt_id ORDER BY d.price DESC
+        """
+    result = db.session.execute(sql, {"receipt_id":receipt_id})
+    dishes = result.fetchall()
+    return dishes
 
 def user_reviews(user_id):
     sql = """
         SELECT reviews.id, restaurants.name, reviews.review
         FROM reviews, restaurants 
         WHERE reviews.user_id = :user_id and reviews.restaurant_id = restaurants.id
+        ORDER BY reviews.created_at
         """
     result = db.session.execute(sql, {"user_id":user_id})
     reviews = result.fetchall()

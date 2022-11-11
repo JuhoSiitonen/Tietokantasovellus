@@ -6,15 +6,21 @@
 
 {% block body %}
 <title>Tilaukset</title>
-<h1></h1>
+<h1>Omat tilaukseni</h1>
 <br>
-Omat tilaukseni:
+Valitse haluamasi tilaus mikäli haluat tarkastella sen sisältöä
 <br>
 {% for item in receipts %}
+<form action="/receipt/{{ item.id }}" method="POST">
     <li>
-         | {{ item.additional_info }} | {{ item.price }}€
+        <input type="radio" name="receipt" value="{{ item.id }}">
+        {{ item.created_at.strftime("%Y-%m-%d %H:%M:%S") }} | {{ item.name}} | {{ item.price }}€
     </li>
 {% endfor %}
+<br>
+<input type="hidden" name="restaurant" value="{{ receipts.name }}">
+<input type="submit" value="Valitse">
+</form>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
 

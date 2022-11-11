@@ -71,11 +71,17 @@ def receipt():
 def receipt_archive(user_id):
     if int(user_id) != users.user_id():
         return render_template("error.html", txt="", link="/front")
-    receipts, receipt_dishes = users.user_receipts(user_id)
+    receipts = users.user_receipts(user_id)
     if not receipts:
         return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front", link_txt="Takaisin etusivulle")
     return render_template("user_receipts.html", receipts=receipts)
 
+@app.route("/receipt/<receipt_id>", methods=["POST"])
+def inspect_receipt(receipt_id):
+    restaurant = request.form["restaurant"]
+    receipt_dishes = users.receipt_dishes(receipt_id)
+    return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, restaurant=restaurant)
+    
 @app.route("/review", methods=["GET", "POST"])
 def review():
     if request.method == "GET":
