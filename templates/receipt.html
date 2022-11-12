@@ -13,9 +13,10 @@
 Tilauksesi kuitti:
 <br>
 {{ receipt }}
+<br>
 <a href="/front">Palaa etusivulle</a>
 <br>
-<a href="/review">Jätä arvostelu ravintolalle</a>
+<a href="/review/{{ receipt }}">Jätä arvostelu ravintolalle</a>
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>

@@ -49,8 +49,9 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
     db.session.commit()
     return receipt_id
 
-def create_review(user_id, restaurant_id, review):
-    sql = "INSERT INTO reviews (user_id, restaurant_id, review, visibility, created_at) VALUES (:user_id, :restaurant_id, :review, TRUE, NOW())"
+def create_review(restaurant_id, review):
+    user_id = users.user_id()
+    sql = "INSERT INTO reviews (user_id, restaurant_id, review, visible, created_at) VALUES (:user_id, :restaurant_id, :review, TRUE, NOW())"
     db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "review":review})
     db.session.commit()
 

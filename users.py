@@ -44,7 +44,7 @@ def user_receipts(user_id):
 
 def inspect_receipt(receipt_id):
     sql = """
-        SELECT r.id, restaurants.name, r.price, r.additional_info, r.created_at
+        SELECT r.id, r.restaurant_id, restaurants.name, r.price, r.additional_info, r.created_at
         FROM receipts as r, restaurants
         WHERE r.id = :receipt_id AND r.restaurant_id = restaurants.id 
         """

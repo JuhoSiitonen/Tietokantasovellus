@@ -88,14 +88,15 @@ def inspect_receipt(receipt_id):
     receipt_dishes = users.receipt_dishes(receipt_id)
     return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
     
-@app.route("/review", methods=["GET", "POST"])
-def review():
+@app.route("/review/<receipt_id>", methods=["GET", "POST"])
+def review(receipt_id):
     if request.method == "GET":
-         return render_template("review.html")
+         return render_template("review.html", receipt_id=receipt_id)
     if request.method == "POST":
+        restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
         review = request.form["text_review"]
-        user_id = users.user_id()
-        return render_template("review.html")
+        restaurants.create_review(restaurant_id, review)
+        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
 @app.route("/best_reviews", methods=["GET"])
 def best_reviews():
