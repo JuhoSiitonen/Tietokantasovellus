@@ -16,4 +16,8 @@ Database information deletion is done by a visibility column which has a boolean
 Admin user can delete restaurants, dishes, users and modify all but user data and receipts. 
 
 
-*** Functionality yet uncertain: Time estimate from restaurant address to customer address. Google maps API connection required.
+*** Functionality yet uncertain: Time estimate from restaurant address to customer address. Google maps API connection required. Or Maify or other API for distance matrix.
+
+INFO for VÄLIPALAUTUS 2:
+
+
