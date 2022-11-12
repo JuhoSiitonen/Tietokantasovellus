@@ -11,16 +11,12 @@
 Valitse haluamasi tilaus mikäli haluat tarkastella sen sisältöä
 <br>
 {% for item in receipts %}
-<form action="/receipt/{{ item.id }}" method="POST">
     <li>
-        <input type="radio" name="receipt" value="{{ item.id }}">
+        <a href="/receipt/{{ item.id }}"> Valitse </a>
         {{ item.created_at.strftime("%Y-%m-%d %H:%M:%S") }} | {{ item.name}} | {{ item.price }}€
     </li>
 {% endfor %}
 <br>
-<input type="hidden" name="restaurant" value="{{ receipts.name }}">
-<input type="submit" value="Valitse">
-</form>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
 

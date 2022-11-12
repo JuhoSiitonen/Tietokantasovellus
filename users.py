@@ -42,6 +42,16 @@ def user_receipts(user_id):
     receipts = result.fetchall()
     return receipts
 
+def inspect_receipt(receipt_id):
+    sql = """
+        SELECT r.id, restaurants.name, r.price, r.additional_info, r.created_at
+        FROM receipts as r, restaurants
+        WHERE r.id = :receipt_id AND r.restaurant_id = restaurants.id 
+        """
+    result = db.session.execute(sql, {"receipt_id":receipt_id})
+    receipt = result.fetchone()
+    return receipt
+
 def receipt_dishes(receipt_id):
     sql = """
         SELECT r.receipt_id, d.dish_name, d.price FROM receiptdishes as r, dishes as d 

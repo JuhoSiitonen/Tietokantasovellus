@@ -49,6 +49,9 @@ def dishes(restaurant_id):
     restaurant = restaurants.restaurant_name(restaurant_id)
     return render_template("dishes.html", listing=list, restaurant=restaurant)
 
+# Olisiko muuta tapaa kantaa käyttäjän tilaustietoa mukana, jolloin ei tulisi niin monta POST
+# metodin ja hidden inputtien käyttöä HTML pohjassa?? Esimerkiksi luokka? 
+
 @app.route("/confirmation", methods=["POST"])
 def confirmation():
     dish = request.form.getlist("dish")
@@ -79,11 +82,11 @@ def receipt_archive(user_id):
         return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front", link_txt="Takaisin etusivulle")
     return render_template("user_receipts.html", receipts=receipts)
 
-@app.route("/receipt/<receipt_id>", methods=["POST"])
+@app.route("/receipt/<receipt_id>")
 def inspect_receipt(receipt_id):
-    restaurant = request.form["restaurant"]
+    receipt = users.inspect_receipt(receipt_id)
     receipt_dishes = users.receipt_dishes(receipt_id)
-    return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, restaurant=restaurant)
+    return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
     
 @app.route("/review", methods=["GET", "POST"])
 def review():

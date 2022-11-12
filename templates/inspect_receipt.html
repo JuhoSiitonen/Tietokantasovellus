@@ -6,14 +6,23 @@
 
 {% block body %}
 <title>Tilaukset</title>
-<h1>Tilaukseni: {{ restaurant }}</h1>
+<h1>Tilaukseni ravintolasta {{ receipt.name }}</h1>
 <br>
+TIlattu aikaan: {{ receipt.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
+<br>
+Erikoistoiveet:
+<br>
+{{ receipt.additional_info }}
+<br>
+Tilatut annokset:
 <br>
 {% for item in receipt_dishes %}
     <li>
         {{ item.dish_name}} | {{ item.price }}€
     </li>
 {% endfor %}
+<br>
+Kokonaishinta: {{ receipt.price }}€
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
 
