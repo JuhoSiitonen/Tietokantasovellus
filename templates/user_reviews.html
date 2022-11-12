@@ -10,19 +10,15 @@
 <br>
 Omat arvosteluni:
 <br>
-Jos haluat muokata arvostelua valitse arvostelu ja klikkaa valitse
+Jos haluat muokata arvostelua klikkaa valitse
 <br>
 
 {% for item in reviews %}
-<form action="/modify_review/{{ item.id }}" method="POST">
-
     <li>
-        <input type="radio" name="review" value="{{ item.id }}">{{ item.name }} : {{ item.review }}
+        <a href="modify_review/{{ item.id }}"> Valitse </a>{{ item.name }} : {{ item.review }}
     </li>
 {% endfor %}
 
-<input type="submit" value="Valitse">
-</form>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
 {% endblock %}
