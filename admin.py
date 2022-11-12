@@ -1,6 +1,9 @@
 from db import db
 from flask import session
 
+# Luonnokset Admin funktioista, ei vielä toiminnassa.
+# Tulee vielä päättää poistetaanko käyttäjän arvostelut mikäli käyttäjä poistetaan
+
 def add_admin(user_id):
     sql = "UPDATE users SET admin=TRUE WHERE id = :user_id"
     db.session.execute(sql, {"user_id":user_id})
@@ -26,4 +29,3 @@ def delete_user(user_id):
     db.session.execute(sql, {"user_id":user_id})
     db.session.commit()
 
-# ravintoloiden ja käyttäjien dellaamiseen tulee keksiä jotain muuta kuin visible

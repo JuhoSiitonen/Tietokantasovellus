@@ -3,6 +3,9 @@ from flask import render_template, request, redirect
 import users
 import restaurants
 
+# Mikään osio ei vielä sisällä käyttäjän syötteen tarkastelua esim liian pitkälle merkkijonolle
+# Tämä moduuli tulisi varmaan jakaa useampaan eri moduuliin.. 
+
 @app.route("/")
 def index():
     return render_template("index.html")
