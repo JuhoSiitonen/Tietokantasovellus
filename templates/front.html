@@ -6,17 +6,19 @@
 
 {% block body %}
 {% if session.user_id %}
-<title>Tilaa ruokaa!</title>
-<h1>Tilaa ruokaa!</h1>
+<title>ZWOLT</title>
+<div class="div6"></div>
+    <h1>Tilaa ruokaa!</h1>
+</div>
 <br>
 <a href="/restaurants">Ravintolat lähelläsi</a>
-<br>
+<br><br>
 <a href="/best_reviews">Parhaiten arvostellut ravintolat</a>
-<br>
+<br><br>
 <a href="/reviews/{{ session.user_id }}"> Omat arvosteluni</a>
-<br>
+<br><br>
 <a href="/receipts/{{ session.user_id }}"> Omat tilaukseni</a>
-<br>
+<br><br>
 <a href="/logout">Kirjaudu ulos</a>
 
 {% else %}
