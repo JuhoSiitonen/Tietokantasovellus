@@ -6,7 +6,7 @@ import users
 # Jatkossa kuitin ja arvostelun luomiseen liittyvät funktio varmaan siirrän users moduuliin
 
 def restaurant_list():
-    sql = "SELECT name, id FROM restaurants"
+    sql = "SELECT name, id, address FROM restaurants"
     result = db.session.execute(sql)
     listing = result.fetchall()
     return listing
@@ -67,7 +67,7 @@ def best_reviews():
 
 def restaurant_reviews(restaurant_id):
     sql ="""
-        SELECT restaurants.name, reviews.review 
+        SELECT restaurants.name, reviews.review, reviews.created_at
         FROM reviews, restaurants
         WHERE reviews.restaurant_id = :restaurant_id 
         AND restaurants.id = :restaurant_id
