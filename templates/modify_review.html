@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id %}
+<title>Arvostele ravintola</title>
+<h1></h1>
+<p> Arvostele </p>
+<br>
+<form action="/modify_review/{{ review_id }}" method="POST">
+<textarea name="text_review" rows="3" cols="50"></textarea>
+ <br>
+<input type="submit" value="Lähetä">
+</form>
+<br>
+<a href="/front">Palaa etusivulle</a>
+<br>
+
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+{% endblock %}
