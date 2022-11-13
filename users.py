@@ -75,8 +75,8 @@ def user_reviews(user_id):
 # Arvioiden muokkaus on vielä kesken, ja logiikkaa ei ole vielä päätetty sen suhteen
 # tulisiko aiempi arvio muokata update metodille vai muutta visible ehtoa ja luoda uusi
 
-def modify_review(review_id):
-    sql = "UPDATE reviews SET visibility=FALSE WHERE id = :review_id"
-    db.session.execute(sql, {"review_id":review_id})
+def modify_review(review_id, review):
+    sql = "UPDATE reviews SET review = :review WHERE id = :review_id"
+    db.session.execute(sql, {"review":review, "review_id":review_id})
     db.session.commit()
     

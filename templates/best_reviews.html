@@ -13,15 +13,10 @@
 Valitse ravintola jonka arvosteluja haluat nähdä:
 
 {% for item in reviews %}
-<form action="/best_reviews/{{ item.id }}" method="POST">
-
     <li>
-        <input type="radio" name="review" value="{{ item.id }}">{{ item.name }}
+        <a href="/best_reviews/{{ item.id }}">Valitse</a>  {{ item.name }}
     </li>
 {% endfor %}
-
-<input type="submit" value="Valitse">
-</form>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
 

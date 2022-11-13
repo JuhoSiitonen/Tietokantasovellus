@@ -104,7 +104,7 @@ def best_reviews():
         list = restaurants.best_reviews()
         return render_template("best_reviews.html", reviews=list)
 
-@app.route("/best_reviews/<restaurant_id>", methods=["POST"])
+@app.route("/best_reviews/<restaurant_id>")
 def restaurant_reviews(restaurant_id):
     reviews = restaurants.restaurant_reviews(restaurant_id)
     return render_template("restaurant_reviews.html", reviews=reviews)
@@ -116,9 +116,14 @@ def user_reviews(user_id):
         return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front", link_txt="Takaisin etusivulle")
     return render_template("user_reviews.html", reviews=reviews)
 
-@app.route("/modify_review/<review_id>")
+@app.route("/modify_review/<review_id>", methods=["GET", "POST"])
 def modify_review(review_id):
-    pass
+    if request.method == "GET":
+        return render_template("modify_review.html", review_id=review_id)
+    if request.method == "POST":
+        review = request.form["text_review"]
+        users.modify_review(review_id, review)
+        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")    
 
 @app.route("/logout")
 def logout():
