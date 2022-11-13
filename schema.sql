@@ -21,7 +21,7 @@ CREATE TABLE receipts (
 	user_id INTEGER REFERENCES users,
 	dishes TEXT,
 	price INTEGER,
-	additional_info TEXT
+	additional_info TEXT,
 	created_at TIMESTAMP
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE dishes (
 );
 
 CREATE TABLE receiptdishes (
-	receipt_id INTEGER REFERENCES receipts.
+	receipt_id INTEGER REFERENCES receipts,
 	dish_id INTEGER REFERENCES dishes
 );
 
