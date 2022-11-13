@@ -1,4 +1,4 @@
-# Tietokantasovellus
+# ZWOLT
 Database application in the spirit of Wolt. The application is named ZWOLT.
 
 User can log in to the application using a username and password.
