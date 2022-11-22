@@ -123,7 +123,40 @@ def modify_review(review_id):
     if request.method == "POST":
         review = request.form["text_review"]
         users.modify_review(review_id, review)
-        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")    
+        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")   
+
+@app.route("/admin_tools")
+def admin_tools():
+    if users.is_admin():
+        return render_template("admin_tools.html")
+    else:
+        return render_template("error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle")
+
+@app.route("/add/<element_to_add>", methods=["GET", "POST"])
+def add(element_to_add):
+    if request.method == "GET":
+        if element_to_add == "restaurant":
+            return render_template("add.html", element="1")
+        elif element_to_add == "dish":
+            return render_template("add.html", element="2")
+        elif element_to_add == "admin":
+            return render_template("add.html", element="3")
+    if request.method == "POST":
+        pass
+
+@app.route("/delete/<element_to_delete>", methods=["GET", "POST"])
+def delete(element_to_delete):
+    if request.method == "GET":
+        if element_to_delete == "user":
+            return render_template("delete.html", element="1")
+        elif element_to_delete == "restaurant":
+            return render_template("delete.html", element="2")
+        elif element_to_delete == "dish":
+            return render_template("delete.html", element="3")
+        elif element_to_delete == "review":
+            return render_template("delete.html", element="4")
+    if request.method == "POST":
+        pass
 
 @app.route("/logout")
 def logout():
