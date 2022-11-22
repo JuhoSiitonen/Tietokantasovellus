@@ -9,6 +9,15 @@ def add_admin(user_id):
     db.session.execute(sql, {"user_id":user_id})
     db.session.commit()
 
+def add_restaurant(restaurant_name, restaurant_address):
+    try:
+        sql = "INSERT INTO restaurants (name, visible, address) VALUES (:restaurant_name, TRUE, :restaurant_address)"
+        db.session.execute(sql, {"restaurant_name":restaurant_name, "restaurant_address":restaurant_address})
+        db.session.commit()
+    except:
+        return False
+    return True
+
 def delete_reviews(review_id):
     sql = "UPDATE reviews SET visible=FALSE WHERE id = :review_id"
     db.session.execute(sql, {"review_id":review_id})

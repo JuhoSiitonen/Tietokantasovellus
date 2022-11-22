@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect
 import users
 import restaurants
+import admin
 
 # Mikään osio ei vielä sisällä käyttäjän syötteen tarkastelua esim liian pitkälle merkkijonolle
 # Tämä moduuli tulisi varmaan jakaa useampaan eri moduuliin.. 
@@ -142,7 +143,13 @@ def add(element_to_add):
         elif element_to_add == "admin":
             return render_template("add.html", element="3")
     if request.method == "POST":
-        pass
+        if element_to_add == "restaurant":
+            restaurant_name = request.form["restaurant_name"]
+            restaurant_address = request.form["restaurant_address"]
+            if admin.add_restaurant(restaurant_name, restaurant_address):
+                return render_template("error.html", txt="Ravintolan lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+            else:
+                return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
 
 @app.route("/delete/<element_to_delete>", methods=["GET", "POST"])
 def delete(element_to_delete):
