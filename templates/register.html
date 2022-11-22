@@ -8,14 +8,14 @@
 <title>Rekisteröidy</title>
 <h1>Voit rekisteröityä luomalla käyttäjätunnuksen ja salasanan</h1>
 <form action="/register" method="POST">
-    Luo käyttäjätunnus:
-    <input type="text" name="username">
+    Luo käyttäjätunnus (3-20 merkkiä):
+    <input type="text" name="username" maxlength="20" minlength="3">
     <br>
-    Salasana:      
-    <input type="password" name="password">
+    Salasana (3-20 merkkiä):      
+    <input type="password" name="password" maxlength="20" minlength="3">
     <br>
     Syötä salasana uudelleen:
-    <input type="password" name="password2">
+    <input type="password" name="password2" maxlength="20" minlength="3">
     <input type="submit" value="Rekisteröi">
 
 </form>
