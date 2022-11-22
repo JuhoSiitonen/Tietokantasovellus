@@ -24,4 +24,8 @@
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}
+{% if session.user_role %}
+<br>
+<a href="/admin_tools">Työkalut</a>
+{% endif %}
 {% endblock %}
