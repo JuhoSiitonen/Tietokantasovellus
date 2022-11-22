@@ -15,19 +15,33 @@
 Lisää ravintola:
 <form action="/add/restaurant" method="POST">
     Ravintolan nimi:
-    <input type="text" name="restaurant_name"><br>
+    <input type="text" name="restaurant_name" maxlength="30"><br>
     Ravintolan osoite:
-    <input type="text" name="restaurant_address"><br>
+    <input type="text" name="restaurant_address" maxlength="60"><br>
     <input type="submit" value="Lisää">
 </form>
 {% endif %}
 
 {% if element == "2" %}
 Lisää annos:
+<form action="/add/dish" method="POST">
+    Ravintolan nimi:
+    <input type="text" name="restaurant_name" maxlength="30"><br>
+    Annoksen nimi:
+    <input type="text" name="dish_name" maxlength="30"><br>
+    Annoksen hinta:
+    <input type="number" name="price" maxlength="6"><br>
+    <input type="submit" value="Lisää">
+</form>
 {% endif %}
 
 {% if element == "3" %}
 Lisää ylläpitäjä:
+<form action="/add/admin" method="POST">
+    Käyttäjän nimi:
+    <input type="text" name="user_name" maxlength="20"><br>
+    <input type="submit" value="Lisää">
+</form>
 {% endif %}
 <br>
 

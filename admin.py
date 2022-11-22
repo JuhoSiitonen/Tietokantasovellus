@@ -4,15 +4,28 @@ from flask import session
 # Luonnokset Admin funktioista, ei vielä toiminnassa.
 # Tulee vielä päättää poistetaanko käyttäjän arvostelut mikäli käyttäjä poistetaan
 
-def add_admin(user_id):
-    sql = "UPDATE users SET admin=TRUE WHERE id = :user_id"
-    db.session.execute(sql, {"user_id":user_id})
-    db.session.commit()
+def add_admin(user_name):
+    try:
+        sql = "UPDATE users SET admin=TRUE WHERE username = :user_name"
+        db.session.execute(sql, {"user_name":user_name})
+        db.session.commit()
+    except:
+        return False
+    return True
 
 def add_restaurant(restaurant_name, restaurant_address):
     try:
         sql = "INSERT INTO restaurants (name, visible, address) VALUES (:restaurant_name, TRUE, :restaurant_address)"
         db.session.execute(sql, {"restaurant_name":restaurant_name, "restaurant_address":restaurant_address})
+        db.session.commit()
+    except:
+        return False
+    return True
+
+def add_dish(restaurant_id, dish_name, price):
+    try:
+        sql = "INSERT INTO dishes (restaurant_id, dish_name, visible, price) VALUES (:restaurant_id, :dish_name, TRUE, :price)"
+        db.session.execute(sql, {"restaurant_id":restaurant_id, "dish_name":dish_name, "price":price})
         db.session.commit()
     except:
         return False
