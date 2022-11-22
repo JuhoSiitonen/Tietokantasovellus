@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id and session.user_role %}
+<title>ZWOLT</title>
+<div class="div6"></div>
+    <h1>Ylläpitäjän työkalut</h1>
+</div>
+<br>
+<a href="/add/restaurant">Lisää ravintola</a>
+<br><br>
+<a href="/add/dish">Lisää annos</a>
+<br><br>
+<a href="/add/admin">Lisää ylläpitäjä</a>
+<br><br>
+<a href="/remove/user">Poista käyttäjä</a>
+<br><br>
+<a href="/remove/restaurant">Poista ravintola</a>
+<br><br>
+<a href="/remove/dish">Poista annos</a>
+<br><br>
+<a href="/remove/review">Poista arvostelu</a>
+<br><br>
+<a href="/logout">Kirjaudu ulos</a>
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+
+{% endblock %}
