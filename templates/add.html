@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id and session.user_role %}
+<title>ZWOLT</title>
+<div class="div6"></div>
+    <h1>Ylläpitäjän työkalut</h1>
+</div>
+<br>
+{% if element == "1" %}
+Lisää ravintola:
+<form action="/add/restaurant" method="POST">
+    Ravintolan nimi:
+    <input type="text" name="restaurant_name"><br>
+    Ravintolan osoite:
+    <input type="text" name="restaurant_address"><br>
+    <input type="submit" value="Lisää">
+</form>
+{% endif %}
+
+{% if element == "2" %}
+Lisää annos:
+{% endif %}
+
+{% if element == "3" %}
+Lisää ylläpitäjä:
+{% endif %}
+<br>
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+
+{% endblock %}

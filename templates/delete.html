@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id and session.user_role %}
+<title>ZWOLT</title>
+<div class="div6"></div>
+    <h1>Ylläpitäjän työkalut</h1>
+</div>
+<br>
+{% if element == "1" %}
+Poista käyttäjä kirjoittamalla käyttäjätunnus:
+{{ element }}
+{% endif %}
+
+{% if element == "2" %}
+Poista ravintola kirjoittamalla ravintolan nimi:
+{{ element }}
+{% endif %}
+
+{% if element == "3" %}
+Poista annos antamalla ravintolan nimi ja annoksen nimi:
+{{ element }}
+{% endif %}
+
+{% if element == "4" %}
+Poista arvio antamalla arvion tunnusnumero:
+{{ element }}
+{% endif %}
+<br>
+
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+
+{% endblock %}
