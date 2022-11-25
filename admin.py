@@ -51,3 +51,10 @@ def delete_user(user_id):
     db.session.execute(sql, {"user_id":user_id})
     db.session.commit()
 
+def get_user_id(username):
+    sql = "SELECT id FROM users WHERE username = :username"
+    result = db.session.execute(sql, {"username":username})
+    user_id = result.fetchone()
+    if user_id:
+        return user_id[0]
+    return 0 

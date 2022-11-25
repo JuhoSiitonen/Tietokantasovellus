@@ -17,6 +17,15 @@ def dishes_list(restaurant_id):
     listing = result.fetchall()
     return listing
 
+def get_dish_id(restaurant_id, dish_name):
+    try:
+        sql = "SELECT id FROM dishes WHERE restaurant_id=:restaurant_id and dish_name=:dish_name"
+        result = db.session.execute(sql, {"restaurant_id":restaurant_id, "dish_name":dish_name})
+        dish_id = result.fetchone()
+        return dish_id
+    except:
+        return 0
+
 def get_restaurant_id(restaurant_name):
     try:
         sql = "SELECT id FROM restaurants WHERE name=:restaurant_name"
