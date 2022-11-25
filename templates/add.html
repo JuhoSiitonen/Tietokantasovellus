@@ -11,6 +11,7 @@
     <h1>Ylläpitäjän työkalut</h1>
 </div>
 <br>
+
 {% if element == "1" %}
 Lisää ravintola:
 <form action="/add/restaurant" method="POST">
@@ -44,6 +45,8 @@ Lisää ylläpitäjä:
 </form>
 {% endif %}
 <br>
+<br>
+<a href="/admin_tools">Palaa työkaluihin</a>
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
