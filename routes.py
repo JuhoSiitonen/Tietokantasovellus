@@ -154,7 +154,7 @@ def add(element_to_add):
             restaurant_name = request.form["restaurant_name"]
             dish_name = request.form["dish_name"]
             price = int(request.form["price"])
-            restaurant_id = restaurants.get_restaurant_id(restaurant_name)
+            restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
             if admin.add_dish(restaurant_id, dish_name, price):
                 return render_template("error.html", txt="Annoksen lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             else:

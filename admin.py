@@ -24,6 +24,7 @@ def add_restaurant(restaurant_name, restaurant_address):
 
 def add_dish(restaurant_id, dish_name, price):
     try:
+        price = int(price)
         sql = "INSERT INTO dishes (restaurant_id, dish_name, visible, price) VALUES (:restaurant_id, :dish_name, TRUE, :price)"
         db.session.execute(sql, {"restaurant_id":restaurant_id, "dish_name":dish_name, "price":price})
         db.session.commit()
