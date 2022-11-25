@@ -142,7 +142,9 @@ def add(element_to_add):
             return render_template("add.html", element="2")
         elif element_to_add == "admin":
             return render_template("add.html", element="3")
+
     if request.method == "POST":
+        
         if element_to_add == "restaurant":
             restaurant_name = request.form["restaurant_name"]
             restaurant_address = request.form["restaurant_address"]
@@ -150,6 +152,7 @@ def add(element_to_add):
                 return render_template("error.html", txt="Ravintolan lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             else:
                 return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        
         elif element_to_add == "dish":
             restaurant_name = request.form["restaurant_name"]
             dish_name = request.form["dish_name"]
@@ -159,6 +162,7 @@ def add(element_to_add):
                 return render_template("error.html", txt="Annoksen lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             else:
                 return render_template("error.html", txt="Annoksen lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        
         elif element_to_add == "admin":
             user_name = request.form["user_name"]
             if admin.add_admin(user_name):
