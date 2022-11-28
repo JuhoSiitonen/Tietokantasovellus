@@ -181,8 +181,44 @@ def delete(element_to_delete):
             return render_template("delete.html", element="3")
         elif element_to_delete == "review":
             return render_template("delete.html", element="4")
+
     if request.method == "POST":
-        pass
+
+        if element_to_delete == "user":
+            username = request.form["username"]
+            user_id = admin.get_user_id(username)
+            if user_id != 0:
+                admin.delete_user(user_id)
+                return render_template("error.html", txt="Käyttäjän poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+            else:
+                return render_template("error.html", txt="Käyttäjän poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        
+        elif element_to_delete == "restaurant":
+            restaurant_name = request.form["restaurant_name"]
+            restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
+            if restaurant_id != 0:
+                admin.delete_restaurant(restaurant_id)
+                return render_template("error.html", txt="Ravintolan poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+            else:
+                return render_template("error.html", txt="Ravintolan poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        
+        elif element_to_delete == "dish":
+            restaurant_name = request.form["restaurant_name"]
+            restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
+            dish_name = request.form["dish_name"]
+            dish_id = restaurants.get_dish_id(restaurant_id, dish_name)[0]
+            if restaurant_id != 0 and dish_id != 0:
+                admin.delete_dish(dish_id)
+                return render_template("error.html", txt="Annoksen poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+            else:
+                return render_template("error.html", txt="Annoksen poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        
+        elif element_to_delete == "review":
+            review_id = request.form["review_id"]
+            if admin.delete_reviews(review_id):
+                return render_template("error.html", txt="Arvion poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+            else:
+                return render_template("error.html", txt="Arvion poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
 
 @app.route("/logout")
 def logout():

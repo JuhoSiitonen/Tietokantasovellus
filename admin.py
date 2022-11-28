@@ -47,9 +47,14 @@ def delete_dish(dish_id):
     db.session.commit()
 
 def delete_user(user_id):
-    sql = "UPDATE users SET visible=FALSE WHERE id = :user_id"
-    db.session.execute(sql, {"user_id":user_id})
-    db.session.commit()
+    try:
+        sql = "UPDATE users SET visible=FALSE WHERE id = :user_id"
+        db.session.execute(sql, {"user_id":user_id})
+        db.session.commit()
+    except:
+        return False
+    return True
+
 
 def get_user_id(username):
     sql = "SELECT id FROM users WHERE username = :username"
