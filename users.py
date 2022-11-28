@@ -3,7 +3,7 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
-    sql ="SELECT id, password, admin FROM users WHERE username = :username"
+    sql ="SELECT id, password, admin FROM users WHERE username = :username AND visible = TRUE"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
@@ -74,7 +74,8 @@ def user_reviews(user_id):
     sql = """
         SELECT reviews.id, restaurants.name, reviews.review
         FROM reviews, restaurants 
-        WHERE reviews.user_id = :user_id and reviews.restaurant_id = restaurants.id
+        WHERE reviews.user_id = :user_id AND reviews.restaurant_id = restaurants.id
+        AND reviews.visible = TRUE
         ORDER BY reviews.created_at
         """
     result = db.session.execute(sql, {"user_id":user_id})

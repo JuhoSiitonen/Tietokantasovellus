@@ -6,13 +6,13 @@ import users
 # Jatkossa kuitin ja arvostelun luomiseen liittyvät funktio varmaan siirrän users moduuliin
 
 def restaurant_list():
-    sql = "SELECT name, id, address FROM restaurants"
+    sql = "SELECT name, id, address FROM restaurants WHERE visible = TRUE"
     result = db.session.execute(sql)
     listing = result.fetchall()
     return listing
 
 def dishes_list(restaurant_id):
-    sql = "SELECT dish_name, price, id, restaurant_id FROM dishes WHERE restaurant_id =:restaurant_id"
+    sql = "SELECT dish_name, price, id, restaurant_id FROM dishes WHERE restaurant_id =:restaurant_id AND visible = TRUE"
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
     listing = result.fetchall()
     return listing
@@ -77,7 +77,7 @@ def best_reviews():
     sql ="""
         SELECT DISTINCT restaurants.name, restaurants.id
         FROM reviews, restaurants
-        WHERE reviews.restaurant_id = restaurants.id
+        WHERE reviews.restaurant_id = restaurants.id AND restaurants.visible = TRUE
         """
     result = db.session.execute(sql)
     reviews = result.fetchall()
@@ -85,10 +85,10 @@ def best_reviews():
 
 def restaurant_reviews(restaurant_id):
     sql ="""
-        SELECT restaurants.name, reviews.review, reviews.created_at
+        SELECT restaurants.name, reviews.id, reviews.review, reviews.created_at
         FROM reviews, restaurants
         WHERE reviews.restaurant_id = :restaurant_id 
-        AND restaurants.id = :restaurant_id
+        AND restaurants.id = :restaurant_id AND reviews.visible = TRUE
         """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
     reviews = result.fetchall()
