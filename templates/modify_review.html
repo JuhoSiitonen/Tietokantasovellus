@@ -13,6 +13,7 @@
 <form action="/modify_review/{{ review_id }}" method="POST">
 <textarea name="text_review" rows="3" cols="50"></textarea>
  <br>
+ <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <input type="submit" value="Lähetä">
 </form>
 <br>

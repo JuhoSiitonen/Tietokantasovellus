@@ -16,6 +16,7 @@
 {% endfor %}
 <br> Erikoistoiveet: <br>
 <textarea name="message" rows="3" cols="50" maxlength="500"></textarea> <br>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <input type="submit" value="Tilaa">
 </form>
 <br>

@@ -19,6 +19,7 @@ Lisää ravintola:
     <input type="text" name="restaurant_name" maxlength="30"><br>
     Ravintolan osoite:
     <input type="text" name="restaurant_address" maxlength="60"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää">
 </form>
 {% endif %}
@@ -32,6 +33,7 @@ Lisää annos:
     <input type="text" name="dish_name" maxlength="30"><br>
     Annoksen hinta:
     <input type="number" name="price" maxlength="6"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää">
 </form>
 {% endif %}
@@ -41,6 +43,7 @@ Lisää ylläpitäjä:
 <form action="/add/admin" method="POST">
     Käyttäjän nimi:
     <input type="text" name="user_name" maxlength="20"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää">
 </form>
 {% endif %}

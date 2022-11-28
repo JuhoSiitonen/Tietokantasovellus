@@ -16,6 +16,7 @@ Poista käyttäjä kirjoittamalla käyttäjätunnus:
 <form action="/delete/user" method="POST">
     Käyttäjän nimi:
     <input type="text" name="username" maxlength="30"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Poista">
 </form>
 {% endif %}
@@ -25,6 +26,7 @@ Poista ravintola kirjoittamalla ravintolan nimi:
 <form action="/delete/restaurant" method="POST">
     Ravintolan nimi:
     <input type="text" name="restaurant_name" maxlength="30"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Poista">
 </form>
 {% endif %}
@@ -36,6 +38,7 @@ Poista annos antamalla ravintolan nimi ja annoksen nimi:
     <input type="text" name="restaurant_name" maxlength="30"><br>
     Annoksen nimi:
     <input type="text" name="dish_name" maxlength="60"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Poista">
 </form>
 {% endif %}
@@ -45,6 +48,7 @@ Poista arvio antamalla arvion tunnusnumero:
 <form action="/delete/review" method="POST">
     Arvion tunnusnumero:
     <input type="text" name="review_id" maxlength="30"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Poista">
 </form>
 {% endif %}
