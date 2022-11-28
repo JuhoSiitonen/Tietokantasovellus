@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import users
 import restaurants
 import admin
@@ -38,11 +38,10 @@ def register():
         else:
             return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
 
-@app.route("/restaurants", methods=["GET","POST"])
+@app.route("/restaurants")
 def restaurant():
-    if request.method =="GET":
-        list = restaurants.restaurant_list()
-        return render_template("restaurants.html", listing=list)
+    list = restaurants.restaurant_list()
+    return render_template("restaurants.html", listing=list)
 
 @app.route("/restaurants/<restaurant_id>")
 def dishes(restaurant_id):
@@ -55,6 +54,8 @@ def dishes(restaurant_id):
 
 @app.route("/confirmation", methods=["POST"])
 def confirmation():
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     dish = request.form.getlist("dish")
     orders =[]
     total_price = 0
@@ -67,6 +68,8 @@ def confirmation():
 
 @app.route("/receipt", methods=["POST"])
 def receipt():
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     order_info = request.form.getlist("orders")
     restaurant_id = int(request.form["restaurant_id"])
     total_price = int(request.form["total_price"])
@@ -94,16 +97,17 @@ def review(receipt_id):
     if request.method == "GET":
          return render_template("review.html", receipt_id=receipt_id)
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
         review = request.form["text_review"]
         restaurants.create_review(restaurant_id, review)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
-@app.route("/best_reviews", methods=["GET"])
+@app.route("/best_reviews")
 def best_reviews():
-    if request.method == "GET":
-        list = restaurants.best_reviews()
-        return render_template("best_reviews.html", reviews=list)
+    list = restaurants.best_reviews()
+    return render_template("best_reviews.html", reviews=list)
 
 @app.route("/best_reviews/<restaurant_id>")
 def restaurant_reviews(restaurant_id):
@@ -122,6 +126,8 @@ def modify_review(review_id):
     if request.method == "GET":
         return render_template("modify_review.html", review_id=review_id)
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         review = request.form["text_review"]
         users.modify_review(review_id, review)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")   
@@ -144,6 +150,9 @@ def add(element_to_add):
             return render_template("add.html", element="3")
 
     if request.method == "POST":
+
+        if users.csrf_token() != request.form["csrf_token"]:
+            abort(403)
         
         if element_to_add == "restaurant":
             restaurant_name = request.form["restaurant_name"]
@@ -183,6 +192,9 @@ def delete(element_to_delete):
             return render_template("delete.html", element="4")
 
     if request.method == "POST":
+
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
 
         if element_to_delete == "user":
             username = request.form["username"]

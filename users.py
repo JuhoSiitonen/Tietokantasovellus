@@ -1,6 +1,7 @@
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
+import secrets
 
 def login(username, password):
     sql ="SELECT id, password, admin FROM users WHERE username = :username AND visible = TRUE"
@@ -11,6 +12,7 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["csrf_token"] = secrets.token_hex(16)
             if user.admin:
                 session["user_role"] = "1"
             return True
@@ -34,6 +36,9 @@ def is_admin():
     if session.get("user_role",0):
         return True
     return False
+
+def csrf_token():
+    return session.get("csrf_token",0)
 
 def logout():
     del session["user_id"]
