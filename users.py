@@ -58,7 +58,7 @@ def user_receipts(user_id):
 
 def inspect_receipt(receipt_id):
     sql = """
-        SELECT r.id, r.restaurant_id, restaurants.name, r.price, r.additional_info, r.created_at
+        SELECT r.id, r.restaurant_id, restaurants.name, r.price, r.additional_info, r.created_at, r.user_id
         FROM receipts as r, restaurants
         WHERE r.id = :receipt_id AND r.restaurant_id = restaurants.id 
         """
@@ -87,11 +87,15 @@ def user_reviews(user_id):
     reviews = result.fetchall()
     return reviews
 
-# Arvioiden muokkaus on vielä kesken, ja logiikkaa ei ole vielä päätetty sen suhteen
-# tulisiko aiempi arvio muokata update metodille vai muutta visible ehtoa ja luoda uusi
+def check_review_id(review_id):
+    sql = "SELECT user_id FROM reviews WHERE id = :review_id"
+    result = db.session.execute(sql, {"review_id":review_id})
+    user = result.fetchone()
+    return user
 
 def modify_review(review_id, review):
-    sql = "UPDATE reviews SET review = :review WHERE id = :review_id"
-    db.session.execute(sql, {"review":review, "review_id":review_id})
+    user_id = user_id()
+    sql = "UPDATE reviews SET review = :review WHERE id = :review_id AND user_id = :user_id"
+    db.session.execute(sql, {"review":review, "review_id":review_id, "user_id":user_id})
     db.session.commit()
     

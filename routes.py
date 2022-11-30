@@ -4,9 +4,6 @@ import users
 import restaurants
 import admin
 
-# Mikään osio ei vielä sisällä käyttäjän syötteen tarkastelua esim liian pitkälle merkkijonolle
-# Tämä moduuli tulisi varmaan jakaa useampaan eri moduuliin.. 
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -80,7 +77,7 @@ def receipt():
 @app.route("/receipts/<user_id>")
 def receipt_archive(user_id):
     if int(user_id) != users.user_id():
-        return render_template("error.html", txt="", link="/front")
+        return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
     receipts = users.user_receipts(user_id)
     if not receipts:
         return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front", link_txt="Takaisin etusivulle")
@@ -89,6 +86,8 @@ def receipt_archive(user_id):
 @app.route("/receipt/<receipt_id>")
 def inspect_receipt(receipt_id):
     receipt = users.inspect_receipt(receipt_id)
+    if receipt.user_id != users.user_id():
+        return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
     receipt_dishes = users.receipt_dishes(receipt_id)
     return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
     
@@ -97,7 +96,7 @@ def review(receipt_id):
     if request.method == "GET":
          return render_template("review.html", receipt_id=receipt_id)
     if request.method == "POST":
-        if session["csrf_token"] != request.form["csrf_token"]:
+        if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
         restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
         review = request.form["text_review"]
@@ -116,6 +115,8 @@ def restaurant_reviews(restaurant_id):
 
 @app.route("/reviews/<user_id>")
 def user_reviews(user_id):
+    if int(user_id) != users.user_id():
+        return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
     reviews = users.user_reviews(user_id)
     if not reviews:
         return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front", link_txt="Takaisin etusivulle")
@@ -124,9 +125,12 @@ def user_reviews(user_id):
 @app.route("/modify_review/<review_id>", methods=["GET", "POST"])
 def modify_review(review_id):
     if request.method == "GET":
+        user_id = users.user_id()
+        if user_id != users.check_review_id(review_id):
+            return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
         return render_template("modify_review.html", review_id=review_id)
     if request.method == "POST":
-        if session["csrf_token"] != request.form["csrf_token"]:
+        if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
         review = request.form["text_review"]
         users.modify_review(review_id, review)
@@ -193,7 +197,7 @@ def delete(element_to_delete):
 
     if request.method == "POST":
 
-        if session["csrf_token"] != request.form["csrf_token"]:
+        if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
 
         if element_to_delete == "user":
