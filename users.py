@@ -42,6 +42,7 @@ def csrf_token():
 
 def logout():
     del session["user_id"]
+    del session["csrf_token"]
     if session.get("user_role",0):
         del session["user_role"]
 
@@ -53,8 +54,7 @@ def user_receipts(user_id):
         ORDER BY r.created_at
         """
     result = db.session.execute(sql, {"user_id":user_id})
-    receipts = result.fetchall()
-    return receipts
+    return result.fetchall()
 
 def inspect_receipt(receipt_id):
     sql = """
@@ -63,8 +63,7 @@ def inspect_receipt(receipt_id):
         WHERE r.id = :receipt_id AND r.restaurant_id = restaurants.id 
         """
     result = db.session.execute(sql, {"receipt_id":receipt_id})
-    receipt = result.fetchone()
-    return receipt
+    return result.fetchone()
 
 def receipt_dishes(receipt_id):
     sql = """
@@ -72,8 +71,7 @@ def receipt_dishes(receipt_id):
         WHERE r.dish_id = d.id AND r.receipt_id = :receipt_id ORDER BY d.price DESC
         """
     result = db.session.execute(sql, {"receipt_id":receipt_id})
-    dishes = result.fetchall()
-    return dishes
+    return result.fetchall()
 
 def user_reviews(user_id):
     sql = """
@@ -84,14 +82,12 @@ def user_reviews(user_id):
         ORDER BY reviews.created_at
         """
     result = db.session.execute(sql, {"user_id":user_id})
-    reviews = result.fetchall()
-    return reviews
+    return result.fetchall()
 
 def check_review_id(review_id):
     sql = "SELECT user_id FROM reviews WHERE id = :review_id"
     result = db.session.execute(sql, {"review_id":review_id})
-    user = result.fetchone()
-    return user
+    return result.fetchone()
 
 def modify_review(review_id, review):
     user_id = user_id()

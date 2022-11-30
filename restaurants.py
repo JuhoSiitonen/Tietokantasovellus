@@ -2,20 +2,15 @@ from db import db
 from flask import session
 import users
 
-# Sisältää kaikki ravintoloihin liittyvät funktiot
-# Jatkossa kuitin ja arvostelun luomiseen liittyvät funktio varmaan siirrän users moduuliin
-
 def restaurant_list():
     sql = "SELECT name, id, address FROM restaurants WHERE visible = TRUE"
     result = db.session.execute(sql)
-    listing = result.fetchall()
-    return listing
+    return result.fetchall()
 
 def dishes_list(restaurant_id):
     sql = "SELECT dish_name, price, id, restaurant_id FROM dishes WHERE restaurant_id =:restaurant_id AND visible = TRUE"
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
-    listing = result.fetchall()
-    return listing
+    return result.fetchall()
 
 def get_dish_id(restaurant_id, dish_name):
     try:
@@ -44,12 +39,6 @@ def dish_name(dish_id):
     sql = "SELECT id, dish_name, price, restaurant_id FROM dishes WHERE id=:dish_id"
     result = db.session.execute(sql, {"dish_id":dish_id})
     return result.fetchone()
-
-# Kuitin luomisessa tehdän lisäys tauluun Receipts ja Receiptdishes jotta tieto olisi 
-# ACID mallin mukainen. 
-# Commit tehdään vasta kun lisäykset on tehty molempiin tauluihin, mutta en ole varma onko se 
-# paras tapa vai tulisiko commit tehdä jo Receipts tauluun lisäyksen jälkeen jotta 
-# ei tulisi samanaikaisuus ongelmia. 
 
 def create_receipt(order_info, restaurant_id, total_price, extra_info):
     user_id = users.user_id()
@@ -80,8 +69,7 @@ def best_reviews():
         WHERE reviews.restaurant_id = restaurants.id AND restaurants.visible = TRUE
         """
     result = db.session.execute(sql)
-    reviews = result.fetchall()
-    return reviews
+    return result.fetchall() 
 
 def restaurant_reviews(restaurant_id):
     sql ="""
@@ -91,8 +79,7 @@ def restaurant_reviews(restaurant_id):
         AND restaurants.id = :restaurant_id AND reviews.visible = TRUE
         """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
-    reviews = result.fetchall()
-    return reviews
+    return result.fetchall()
 
 
     
