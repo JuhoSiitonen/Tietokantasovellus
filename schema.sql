@@ -42,6 +42,7 @@ CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users,
 	restaurant_id INTEGER REFERENCES restaurants,
+	stars INTEGER,
 	review TEXT,
 	visible BOOLEAN,
 	created_at TIMESTAMP
