@@ -75,7 +75,7 @@ def receipt_dishes(receipt_id):
 
 def user_reviews(user_id):
     sql = """
-        SELECT reviews.id, restaurants.name, reviews.review
+        SELECT reviews.id, restaurants.name, reviews.review, reviews.stars
         FROM reviews, restaurants 
         WHERE reviews.user_id = :user_id AND reviews.restaurant_id = restaurants.id
         AND reviews.visible = TRUE
@@ -87,11 +87,11 @@ def user_reviews(user_id):
 def check_review_id(review_id):
     sql = "SELECT user_id FROM reviews WHERE id = :review_id"
     result = db.session.execute(sql, {"review_id":review_id})
-    return result.fetchone()
+    return result.fetchone()[0]
 
-def modify_review(review_id, review):
-    user_id = user_id()
-    sql = "UPDATE reviews SET review = :review WHERE id = :review_id AND user_id = :user_id"
-    db.session.execute(sql, {"review":review, "review_id":review_id, "user_id":user_id})
+def modify_review(review_id, review, stars):
+    userid = user_id()
+    sql = "UPDATE reviews SET review = :review, stars = :stars WHERE id = :review_id AND user_id = :userid"
+    db.session.execute(sql, {"review":review, "stars":stars, "review_id":review_id, "userid":userid})
     db.session.commit()
     

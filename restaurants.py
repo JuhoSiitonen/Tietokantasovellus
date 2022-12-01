@@ -56,10 +56,13 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
     db.session.commit()
     return receipt_id
 
-def create_review(restaurant_id, review):
+def create_review(restaurant_id, review, stars):
     user_id = users.user_id()
-    sql = "INSERT INTO reviews (user_id, restaurant_id, review, visible, created_at) VALUES (:user_id, :restaurant_id, :review, TRUE, NOW())"
-    db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "review":review})
+    sql = """
+        INSERT INTO reviews (user_id, restaurant_id, stars, review, visible, created_at) 
+        VALUES (:user_id, :restaurant_id, :stars, :review, TRUE, NOW())
+        """
+    db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "stars":stars, "review":review})
     db.session.commit()
 
 def best_reviews():

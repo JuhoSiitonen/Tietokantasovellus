@@ -96,8 +96,9 @@ def review(receipt_id):
         if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
         restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
+        stars = int(request.form["rating"])
         review = request.form["text_review"]
-        restaurants.create_review(restaurant_id, review)
+        restaurants.create_review(restaurant_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
 @app.route("/best_reviews")
@@ -128,8 +129,9 @@ def modify_review(review_id):
     if request.method == "POST":
         if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
+        stars = int(request.form["rating"])
         review = request.form["text_review"]
-        users.modify_review(review_id, review)
+        users.modify_review(review_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")   
 
 @app.route("/admin_tools")
