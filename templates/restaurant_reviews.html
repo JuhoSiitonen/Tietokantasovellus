@@ -12,7 +12,7 @@
 <br>
 {% for item in reviews %}
     <li>
-        {{ item.created_at.strftime("%Y-%m-%d %H:%M:%S") }} | Arvion tunnus: {{ item.id }} | {{ item.review }}
+        {{ item.created_at.strftime("%Y-%m-%d %H:%M:%S") }} | Arvion tunnus: {{ item.id }} | {{ item.review }} | Tähtiä : {{ item.stars }}
     </li>
 {% endfor %}
 <br>

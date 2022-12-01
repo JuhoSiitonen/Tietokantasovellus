@@ -67,9 +67,10 @@ def create_review(restaurant_id, review, stars):
 
 def best_reviews():
     sql ="""
-        SELECT DISTINCT restaurants.name, restaurants.id
+        SELECT restaurants.name, restaurants.id,  sum(reviews.stars) / count(reviews.id) as rating
         FROM reviews, restaurants
-        WHERE reviews.restaurant_id = restaurants.id AND restaurants.visible = TRUE
+        WHERE reviews.restaurant_id = restaurants.id AND restaurants.visible = TRUE 
+        GROUP BY restaurants.name, restaurants.id ORDER BY rating LIMIT 10
         """
     result = db.session.execute(sql)
     return result.fetchall() 

@@ -15,7 +15,7 @@ Valitse ravintola jonka arvosteluja haluat nähdä:
 
 {% for item in reviews %}
     <li>
-        <a href="/best_reviews/{{ item.id }}">Valitse</a>  {{ item.name }}
+        <a href="/best_reviews/{{ item.id }}">Valitse</a>  {{ item.name }} | Arvostelujen keskiarvo: {{ item.rating }}
     </li>
 {% endfor %}
 <br>
