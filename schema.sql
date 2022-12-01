@@ -11,6 +11,7 @@ CREATE TABLE users (
 CREATE TABLE restaurants (
     id SERIAL PRIMARY KEY,
 	name TEXT UNIQUE,
+	description TEXT,
 	visible BOOLEAN,
 	address TEXT
 );

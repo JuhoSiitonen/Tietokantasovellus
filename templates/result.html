@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id %}
+<title>Ravintolat</title>
+<h1>Haun tulokset</h1>
+<br>
+<p>Klikkaa ravintolaa jotta pääset tutkimaan sen tarjontaa ja tilaamaan</p>
+{% for item in results %}
+    <li><a href="/restaurants/{{ item.id }}">{{ item.name }} | {{ item.address }}</a></li>
+{% endfor %}
+<br>
+<a href="/front">Palaa takaisin etusivulle</a>
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id %}
+<title>Haku</title>
+<h1>Ravintolahaku</h1>
+<br>
+<p>Voit löytää mieleisiäsi ravintoloita hakukentän avulla, kirjoita kenttään hakusana ja klikkaa hae</p>
+<br>
+<form action="/result" method="GET">
+    Hakusana: <input type="text" name="description">
+    <br>
+    <input type="submit" value="Hae">
+    </form>
+<a href="/front">Palaa takaisin etusivulle</a>
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+{% endblock %}
