@@ -76,12 +76,17 @@ def best_reviews():
 
 def restaurant_reviews(restaurant_id):
     sql ="""
-        SELECT restaurants.name, reviews.id, reviews.review, reviews.created_at
+        SELECT restaurants.name, reviews.id, reviews.review, reviews.created_at, reviews.stars
         FROM reviews, restaurants
         WHERE reviews.restaurant_id = :restaurant_id 
         AND restaurants.id = :restaurant_id AND reviews.visible = TRUE
         """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
+    return result.fetchall()
+
+def find_restaurants(description):
+    sql = "SELECT id, name, address, description FROM restaurants WHERE description LIKE :description"
+    result = db.session.execute(sql, {"description":"%"+description+"%"})
     return result.fetchall()
 
 

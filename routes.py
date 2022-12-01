@@ -137,6 +137,18 @@ def modify_review(review_id):
         users.modify_review(review_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")   
 
+@app.route("/find_restaurant")
+def find_restaurant():
+    return render_template("find_restaurant.html")
+
+@app.route("/result")
+def result():
+    description = request.args["description"]
+    results = restaurants.find_restaurants(description)
+    if results:
+        return render_template("result.html", results=results)
+    return render_template("error.html", txt="Hakusanoillasi ei löytynyt ravintoloita", link="/front", link_txt="Takaisin etusivulle")
+
 @app.route("/admin_tools")
 def admin_tools():
     if users.is_admin():
@@ -162,7 +174,8 @@ def add(element_to_add):
         if element_to_add == "restaurant":
             restaurant_name = request.form["restaurant_name"]
             restaurant_address = request.form["restaurant_address"]
-            if admin.add_restaurant(restaurant_name, restaurant_address):
+            description = request.form["description"]
+            if admin.add_restaurant(restaurant_name, restaurant_address, description):
                 return render_template("error.html", txt="Ravintolan lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
