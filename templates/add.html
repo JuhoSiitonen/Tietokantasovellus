@@ -7,9 +7,7 @@
 {% block body %}
 {% if session.user_id and session.user_role %}
 <title>ZWOLT</title>
-<div class="div6"></div>
-    <h1>Ylläpitäjän työkalut</h1>
-</div>
+<h1>Ylläpitäjän työkalut</h1>
 <br>
 
 {% if element == "1" %}
@@ -19,6 +17,8 @@ Lisää ravintola:
     <input type="text" name="restaurant_name" maxlength="30"><br>
     Ravintolan osoite:
     <input type="text" name="restaurant_address" maxlength="60"><br>
+    Ravintolan kuvaus:
+    <textarea name="description" rows="3" cols="50" maxlength="1000"></textarea>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää">
 </form>
