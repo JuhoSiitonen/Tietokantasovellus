@@ -18,8 +18,9 @@ Lisää ravintola:
     Ravintolan osoite:
     <input type="text" name="restaurant_address" maxlength="60"><br>
     Ravintolan kuvaus:
+    <br>
     <textarea name="description" rows="3" cols="50" maxlength="1000"></textarea>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
     <input type="submit" value="Lisää">
 </form>
 {% endif %}
