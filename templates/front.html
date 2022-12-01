@@ -8,24 +8,26 @@
 {% if session.user_id %}
 <title>ZWOLT</title>
 <div class="div6"></div>
-    <h1>Tilaa ruokaa!</h1>
+    <h1 class="maintitle">Tilaa ruokaa!</h1>
 </div>
-<br>
-<a href="/restaurants">Ravintolat lähelläsi</a>
-<br><br>
-<a href="/best_reviews">Parhaiten arvostellut ravintolat</a>
-<br><br>
-<a href="/reviews/{{ session.user_id }}"> Omat arvosteluni</a>
-<br><br>
-<a href="/receipts/{{ session.user_id }}"> Omat tilaukseni</a>
-<br><br>
-<a href="/logout">Kirjaudu ulos</a>
-
+<nav>
+    <ul>
+        <li><a href="/restaurants">Ravintolat lähelläsi</a></li>
+        <li><a href="/best_reviews">Parhaiten arvostellut ravintolat</a></li>
+        <li><a href="/reviews/{{ session.user_id }}"> Omat arvosteluni</a></li>
+        <li><a href="/receipts/{{ session.user_id }}"> Omat tilaukseni</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+</nav>
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}
 {% if session.user_role %}
-<br><br>
-<a href="/admin_tools">Ylläpitäjän Työkalut</a>
+<br>
+<nav>
+    <ul>
+        <li><a href="/admin_tools">Ylläpitäjän Työkalut</a></li>
+    </ul>
+</nav>
 {% endif %}
 {% endblock %}
