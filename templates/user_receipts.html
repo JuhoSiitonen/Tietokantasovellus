@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+{% if session.user_id %}
 <title>Tilaukset</title>
 <h1>Omat tilaukseni</h1>
 <br>
@@ -19,5 +20,7 @@ Valitse haluamasi tilaus mikäli haluat tarkastella sen sisältöä
 <br>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
-
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+{% if session.user_id %}
 <title>Tilausvahvistus</title>
 <h1>Yhteenveto tilauksestasi:</h1>
 <h1>Tilattavat ruoat:</h1>
@@ -27,5 +28,7 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Vahvista tilaus">
 </form>
-
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
 {% endblock %}

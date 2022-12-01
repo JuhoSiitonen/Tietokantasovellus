@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+{% if session.user_id %}
 <title>Tilaukset</title>
 <h1>Tilaukseni ravintolasta {{ receipt.name }}</h1>
 <br>
@@ -25,5 +26,7 @@ Tilatut annokset:
 Kokonaishinta: {{ receipt.price }}€
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
-
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
 {% endblock %}

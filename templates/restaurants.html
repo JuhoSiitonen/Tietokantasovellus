@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+{% if session.user_id %}
 <title>Ravintolat</title>
 <h1>Ravintolat lähelläsi</h1>
 <br>
@@ -13,5 +14,7 @@
 {% endfor %}
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>
-
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
 {% endblock %}
