@@ -28,6 +28,9 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
+        if len(username) < 3 or len(password) < 3 or " " in username or " " in password:
+            return render_template("error.html", 
+            txt="Käyttäjätunnuksen ja salasanan pituus tulee olla vähintään 3 merkkiä", link="/register", link_txt="Yritä uudelleen")
         if password != password2:
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register", link_txt="Yritä uudelleen")
         if users.register(username,password):
