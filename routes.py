@@ -91,14 +91,14 @@ def inspect_receipt(receipt_id):
     receipt_dishes = users.receipt_dishes(receipt_id)
     return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
     
-@app.route("/review/<receipt_id>", methods=["GET", "POST"])
-def review(receipt_id):
+@app.route("/review/<restaurant_id>", methods=["GET", "POST"])
+def review(restaurant_id):
     if request.method == "GET":
-         return render_template("review.html", receipt_id=receipt_id)
+         return render_template("review.html", restaurant_id=restaurant_id)
     if request.method == "POST":
         if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
-        restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
+        #restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
         stars = int(request.form["rating"])
         review = request.form["text_review"]
         restaurants.create_review(restaurant_id, review, stars)
@@ -148,6 +148,15 @@ def result():
     if results:
         return render_template("result.html", results=results)
     return render_template("error.html", txt="Hakusanoillasi ei löytynyt ravintoloita", link="/front", link_txt="Takaisin etusivulle")
+
+@app.route("/reviewable")
+def review_restaurant():
+    user_id = users.user_id()
+    listing = users.reviewable_restaurants(user_id)
+    if listing:
+        return render_template("reviewable.html", listing=listing)
+    return render_template("error.html", txt="Et voi arvioida ravintoloita, koska et ole vielä tilannut mistään", 
+    link="/front", link_txt="Takaisin etusivulle")
 
 @app.route("/admin_tools")
 def admin_tools():

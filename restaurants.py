@@ -45,7 +45,7 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
     sql = """
         INSERT INTO receipts (restaurant_id, user_id, price, additional_info, created_at) 
         VALUES (:restaurant_id, :user_id, :price, :additional_info, NOW())
-        RETURNING id 
+        RETURNING id
         """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "price":total_price, "additional_info":extra_info})
     receipt_id = (result.fetchone())[0]
@@ -54,7 +54,7 @@ def create_receipt(order_info, restaurant_id, total_price, extra_info):
         sql = "INSERT INTO receiptdishes (receipt_id, dish_id) VALUES (:receipt_id, :dish_id)"
         db.session.execute(sql, {"receipt_id":receipt_id, "dish_id":dish_id})
     db.session.commit()
-    return receipt_id
+    return restaurant_id
 
 def create_review(restaurant_id, review, stars):
     user_id = users.user_id()
@@ -70,7 +70,7 @@ def best_reviews():
         SELECT restaurants.name, restaurants.id,  sum(reviews.stars) / count(reviews.id) as rating
         FROM reviews, restaurants
         WHERE reviews.restaurant_id = restaurants.id AND restaurants.visible = TRUE 
-        GROUP BY restaurants.name, restaurants.id ORDER BY rating LIMIT 10
+        GROUP BY restaurants.name, restaurants.id ORDER BY rating DESC LIMIT 10
         """
     result = db.session.execute(sql)
     return result.fetchall() 

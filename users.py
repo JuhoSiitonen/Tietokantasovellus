@@ -94,4 +94,12 @@ def modify_review(review_id, review, stars):
     sql = "UPDATE reviews SET review = :review, stars = :stars WHERE id = :review_id AND user_id = :userid"
     db.session.execute(sql, {"review":review, "stars":stars, "review_id":review_id, "userid":userid})
     db.session.commit()
+
+def reviewable_restaurants(user_id):
+    sql = """
+        SELECT DISTINCT restaurants.name, restaurants.id FROM restaurants, receipts 
+        WHERE receipts.user_id = :user_id and receipts.restaurant_id = restaurants.id 
+        """
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchall()
     

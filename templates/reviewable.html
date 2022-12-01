@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session.user_id %}
+<title>Arvioi ravintola</title>
+<h1></h1>
+<br>
+<h1>Voit arvostella ravintoloita joista olet tilannut:</h1>
+<br>
+<br>
+Klikkaa valitse ravintolan kohdalla jonka haluat arvioida:
+<br>
+<br>
+{% for item in listing %}
+    <li>
+        <a href="/review/{{ item.id }}"> Valitse </a>{{ item.name }}
+    </li>
+{% endfor %}
+<br>
+<a href="/front">Palaa takaisin etusivulle</a>
+{% else %}
+<a href="/">Kirjaudu sisään tästä</a>
+{% endif %}
+{% endblock %}
