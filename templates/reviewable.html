@@ -16,9 +16,11 @@ Klikkaa valitse ravintolan kohdalla jonka haluat arvioida:
 <br>
 <br>
 {% for item in listing %}
+<ol>
     <li>
         <a href="/review/{{ item.id }}"> Valitse </a>{{ item.name }}
     </li>
+</ol>
 {% endfor %}
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>

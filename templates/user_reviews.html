@@ -17,9 +17,11 @@ Jos haluat muokata arvostelua klikkaa valitse
 <br>
 
 {% for item in reviews %}
+<ol>
     <li>
         <a href="/modify_review/{{ item.id }}"> Valitse </a>{{ item.name }} | {{ item.review }} | Tähtiä: {{ item.stars }}
     </li>
+</ol>
 {% endfor %}
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>

@@ -17,6 +17,13 @@ input {
 input:hover {
     cursor:pointer
 }
+ol {
+    display: block;
+    list-style-type: none;
+}
+ul {
+    list-style-type: none;
+}
 nav {
     max-width: 25em;
     display: inline-block;

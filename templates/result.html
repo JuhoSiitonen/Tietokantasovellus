@@ -11,7 +11,9 @@
 <br>
 <p>Klikkaa ravintolaa jotta pääset tutkimaan sen tarjontaa ja tilaamaan</p>
 {% for item in results %}
+<ol>
     <li><a href="/restaurants/{{ item.id }}">{{ item.name }} | {{ item.address }}</a></li>
+</ol>
 {% endfor %}
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>

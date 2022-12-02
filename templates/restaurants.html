@@ -10,7 +10,9 @@
 <h1>Ravintolat lähelläsi</h1>
 <br>
 {% for item in listing %}
+<ul>
     <li><a href="/restaurants/{{ item.id }}">{{ item.name }} | {{ item.address }}</a></li>
+</ul>
 {% endfor %}
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>

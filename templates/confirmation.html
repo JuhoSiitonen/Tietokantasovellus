@@ -12,9 +12,11 @@
 <br>
 {% for item in orders %}
 <form action="/receipt" method="POST">
-    <li>
-       <input type="hidden" name="orders" value="{{ item[0] }}"> {{ item[1] }} {{ item[2] }}€
-    </li>
+    <ol>    
+        <li>
+            <input type="hidden" name="orders" value="{{ item[0] }}"> {{ item[1] }} {{ item[2] }}€
+        </li>
+    </ol>
 <br>  
 {% endfor %}
 <h1>Erikoistoiveet</h1>

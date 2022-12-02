@@ -18,9 +18,11 @@ Erikoistoiveet:
 Tilatut annokset:
 <br> 
 {% for item in receipt_dishes %}
+<ol>
     <li>
         {{ item.dish_name}} | {{ item.price }}€
     </li>
+</ol>
 {% endfor %}
 <br>
 Kokonaishinta: {{ receipt.price }}€
