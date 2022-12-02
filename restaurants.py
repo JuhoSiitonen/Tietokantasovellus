@@ -2,7 +2,7 @@ from db import db
 import users
 
 def restaurant_list():
-    sql = "SELECT name, id, address FROM restaurants WHERE visible = TRUE"
+    sql = "SELECT name, id, address, description FROM restaurants WHERE visible = TRUE"
     result = db.session.execute(sql)
     return result.fetchall()
 

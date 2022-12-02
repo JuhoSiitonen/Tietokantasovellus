@@ -11,7 +11,9 @@
 <br>
 {% for item in listing %}
 <ul>
-    <li><a href="/restaurants/{{ item.id }}">{{ item.name }} | {{ item.address }}</a></li>
+    <li><a href="/restaurants/{{ item.id }}">{{ item.name }} | {{ item.address }}</a>
+        <br>{{ item.description }}
+    </li>
 </ul>
 {% endfor %}
 <br>
