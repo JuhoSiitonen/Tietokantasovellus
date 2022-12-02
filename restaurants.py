@@ -1,5 +1,4 @@
 from db import db
-from flask import session
 import users
 
 def restaurant_list():
@@ -8,7 +7,10 @@ def restaurant_list():
     return result.fetchall()
 
 def dishes_list(restaurant_id):
-    sql = "SELECT dish_name, price, id, restaurant_id FROM dishes WHERE restaurant_id =:restaurant_id AND visible = TRUE"
+    sql = """
+        SELECT dish_name, price, id, restaurant_id FROM dishes 
+        WHERE restaurant_id =:restaurant_id AND visible = TRUE
+        """
     result = db.session.execute(sql, {"restaurant_id":restaurant_id})
     return result.fetchall()
 
@@ -90,5 +92,3 @@ def find_restaurants(description):
     result = db.session.execute(sql, {"description":"%"+description+"%"})
     return result.fetchall()
 
-
-    

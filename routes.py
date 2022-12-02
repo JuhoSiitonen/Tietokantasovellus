@@ -1,5 +1,5 @@
+from flask import render_template, request, redirect
 from app import app
-from flask import render_template, request, redirect, session
 import users
 import restaurants
 import admin
@@ -15,10 +15,8 @@ def front():
         password = request.form["password"]
         if users.login(username, password):
             return render_template("front.html")
-        else:
-            return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/", link_txt="Yritä uudelleen")
-    else:
-        return render_template("front.html")
+        return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/", link_txt="Yritä uudelleen")
+    return render_template("front.html")
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -35,8 +33,7 @@ def register():
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register", link_txt="Yritä uudelleen")
         if users.register(username,password):
             return render_template("front.html")
-        else:
-            return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
+        return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
 
 @app.route("/restaurants")
 def restaurant():
@@ -90,15 +87,14 @@ def inspect_receipt(receipt_id):
         return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
     receipt_dishes = users.receipt_dishes(receipt_id)
     return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
-    
+
 @app.route("/review/<restaurant_id>", methods=["GET", "POST"])
 def review(restaurant_id):
     if request.method == "GET":
-         return render_template("review.html", restaurant_id=restaurant_id)
+        return render_template("review.html", restaurant_id=restaurant_id)
     if request.method == "POST":
         if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
-        #restaurant_id = (users.inspect_receipt(receipt_id)).restaurant_id
         stars = int(request.form["rating"])
         review = request.form["text_review"]
         restaurants.create_review(restaurant_id, review, stars)
@@ -135,7 +131,7 @@ def modify_review(review_id):
         stars = int(request.form["rating"])
         review = request.form["text_review"]
         users.modify_review(review_id, review, stars)
-        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")   
+        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
 @app.route("/find_restaurant")
 def find_restaurant():
@@ -162,17 +158,16 @@ def review_restaurant():
 def admin_tools():
     if users.is_admin():
         return render_template("admin_tools.html")
-    else:
-        return render_template("error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle")
+    return render_template("error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle")
 
 @app.route("/add/<element_to_add>", methods=["GET", "POST"])
 def add(element_to_add):
     if request.method == "GET":
         if element_to_add == "restaurant":
             return render_template("add.html", element="1")
-        elif element_to_add == "dish":
+        if element_to_add == "dish":
             return render_template("add.html", element="2")
-        elif element_to_add == "admin":
+        if element_to_add == "admin":
             return render_template("add.html", element="3")
 
     if request.method == "POST":
@@ -188,7 +183,7 @@ def add(element_to_add):
                 return render_template("error.html", txt="Ravintolan lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
-        elif element_to_add == "dish":
+        if element_to_add == "dish":
             restaurant_name = request.form["restaurant_name"]
             dish_name = request.form["dish_name"]
             price = int(request.form["price"])
@@ -197,7 +192,7 @@ def add(element_to_add):
                 return render_template("error.html", txt="Annoksen lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Annoksen lisäys ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
-        elif element_to_add == "admin":
+        if element_to_add == "admin":
             user_name = request.form["user_name"]
             if admin.add_admin(user_name):
                 return render_template("error.html", txt="Ylläpitäjän lisäys onnistui!", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
@@ -208,11 +203,11 @@ def delete(element_to_delete):
     if request.method == "GET":
         if element_to_delete == "user":
             return render_template("delete.html", element="1")
-        elif element_to_delete == "restaurant":
+        if element_to_delete == "restaurant":
             return render_template("delete.html", element="2")
-        elif element_to_delete == "dish":
+        if element_to_delete == "dish":
             return render_template("delete.html", element="3")
-        elif element_to_delete == "review":
+        if element_to_delete == "review":
             return render_template("delete.html", element="4")
 
     if request.method == "POST":
@@ -227,7 +222,7 @@ def delete(element_to_delete):
                 return render_template("error.html", txt="Käyttäjän poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Käyttäjän poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
-        elif element_to_delete == "restaurant":
+        if element_to_delete == "restaurant":
             restaurant_name = request.form["restaurant_name"]
             restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
             if restaurant_id != 0:
@@ -235,7 +230,7 @@ def delete(element_to_delete):
                 return render_template("error.html", txt="Ravintolan poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Ravintolan poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
-        elif element_to_delete == "dish":
+        if element_to_delete == "dish":
             restaurant_name = request.form["restaurant_name"]
             restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
             dish_name = request.form["dish_name"]
@@ -245,7 +240,7 @@ def delete(element_to_delete):
                 return render_template("error.html", txt="Annoksen poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
             return render_template("error.html", txt="Annoksen poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
         
-        elif element_to_delete == "review":
+        if element_to_delete == "review":
             review_id = request.form["review_id"]
             if admin.delete_reviews(review_id):
                 return render_template("error.html", txt="Arvion poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
@@ -255,5 +250,3 @@ def delete(element_to_delete):
 def logout():
     users.logout()
     return redirect("/")
-
-

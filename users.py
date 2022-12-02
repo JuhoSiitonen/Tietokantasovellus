@@ -1,7 +1,7 @@
-from db import db
+import secrets
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
-import secrets
+from db import db
 
 def login(username, password):
     sql ="SELECT id, password, admin FROM users WHERE username = :username AND visible = TRUE"
@@ -9,20 +9,21 @@ def login(username, password):
     user = result.fetchone()
     if not user:
         return False
-    else:
-        if check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            session["csrf_token"] = secrets.token_hex(16)
-            if user.admin:
-                session["user_role"] = "1"
-            return True
-        else:
-            return False
+    if check_password_hash(user.password, password):
+        session["user_id"] = user.id
+        session["csrf_token"] = secrets.token_hex(16)
+        if user.admin:
+            session["user_role"] = "1"
+        return True
+    return False
 
 def register(username, password):
     hash_value = generate_password_hash(password)
     try:
-        sql = "INSERT INTO users (username, password, admin, visible, created_at) VALUES (:username, :password, FALSE, TRUE, NOW())"
+        sql = """
+            INSERT INTO users (username, password, admin, visible, created_at) 
+            VALUES (:username, :password, FALSE, TRUE, NOW())
+            """
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
     except:
@@ -91,7 +92,10 @@ def check_review_id(review_id):
 
 def modify_review(review_id, review, stars):
     userid = user_id()
-    sql = "UPDATE reviews SET review = :review, stars = :stars WHERE id = :review_id AND user_id = :userid"
+    sql = """
+        UPDATE reviews SET review = :review, stars = :stars 
+        WHERE id = :review_id AND user_id = :userid
+        """
     db.session.execute(sql, {"review":review, "stars":stars, "review_id":review_id, "userid":userid})
     db.session.commit()
 
@@ -102,4 +106,3 @@ def reviewable_restaurants(user_id):
         """
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
-    

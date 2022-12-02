@@ -1,5 +1,5 @@
-from db import db
 from flask import session
+from db import db
 
 def add_admin(user_name):
     try:
@@ -57,4 +57,4 @@ def get_user_id(username):
     user_id = result.fetchone()
     if user_id:
         return user_id[0]
-    return 0 
+    return 0
