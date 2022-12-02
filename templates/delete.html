@@ -13,6 +13,7 @@
 <br>
 {% if element == "1" %}
 Poista käyttäjä kirjoittamalla käyttäjätunnus:
+<br>
 <form action="/delete/user" method="POST">
     Käyttäjän nimi:
     <input type="text" name="username" maxlength="30"><br>
@@ -23,6 +24,7 @@ Poista käyttäjä kirjoittamalla käyttäjätunnus:
 
 {% if element == "2" %}
 Poista ravintola kirjoittamalla ravintolan nimi:
+<br>
 <form action="/delete/restaurant" method="POST">
     Ravintolan nimi:
     <input type="text" name="restaurant_name" maxlength="30"><br>
@@ -33,6 +35,7 @@ Poista ravintola kirjoittamalla ravintolan nimi:
 
 {% if element == "3" %}
 Poista annos antamalla ravintolan nimi ja annoksen nimi:
+<br>
 <form action="/delete/dish" method="POST">
     Ravintolan nimi:
     <input type="text" name="restaurant_name" maxlength="30"><br>
@@ -45,6 +48,7 @@ Poista annos antamalla ravintolan nimi ja annoksen nimi:
 
 {% if element == "4" %}
 Poista arvio antamalla arvion tunnusnumero:
+<br>
 <form action="/delete/review" method="POST">
     Arvion tunnusnumero:
     <input type="text" name="review_id" maxlength="30"><br>
