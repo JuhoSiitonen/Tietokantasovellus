@@ -1,8 +1,6 @@
 from flask import render_template, request, redirect
 from app import app
-import users
-import restaurants
-import admin
+import users, restaurants, admin
 
 @app.route("/")
 def index():
@@ -34,6 +32,9 @@ def register():
         if users.register(username,password):
             return render_template("front.html")
         return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
+
+# Next four functions render the pages when clicking "Ravintolat lähelläsi"
+# from the frontpage. 
 
 @app.route("/restaurants")
 def restaurant():
@@ -71,6 +72,9 @@ def receipt():
     receipt = restaurants.create_receipt(order_info, restaurant_id, total_price, extra_info)
     return render_template("receipt.html", receipt=receipt)
 
+# Receipt archive function renders the page "Omat tilaukseni" and inspec_receipt
+# renders the page for viewing a specific order chosen from receipt_archive page
+
 @app.route("/receipts/<user_id>")
 def receipt_archive(user_id):
     if int(user_id) != users.user_id():
@@ -88,6 +92,9 @@ def inspect_receipt(receipt_id):
     receipt_dishes = users.receipt_dishes(receipt_id)
     return render_template("inspect_receipt.html", receipt_dishes=receipt_dishes, receipt=receipt)
 
+# Review function renders the review page which is accessed after order confirmation
+# or separately from the frontpage, modifying reviews is its own page
+
 @app.route("/review/<restaurant_id>", methods=["GET", "POST"])
 def review(restaurant_id):
     if request.method == "GET":
@@ -100,6 +107,9 @@ def review(restaurant_id):
         restaurants.create_review(restaurant_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
+# Best reviews function renders the page accessed by clicking "Parhaiten arvostellut ravintolat"
+# on the frontpage and restaurant_reviews shows user the reviews for a chosen restaurant
+
 @app.route("/best_reviews")
 def best_reviews():
     listing = restaurants.best_reviews()
@@ -109,6 +119,9 @@ def best_reviews():
 def restaurant_reviews(restaurant_id):
     reviews = restaurants.restaurant_reviews(restaurant_id)
     return render_template("restaurant_reviews.html", reviews=reviews)
+
+# user_reviews function renders the page accessed by clicking "Omat arvosteluni" in the
+# frontpage, and modify reviews lets user modify chosen review from user_reviews page.
 
 @app.route("/reviews/<user_id>")
 def user_reviews(user_id):
@@ -133,6 +146,8 @@ def modify_review(review_id):
         users.modify_review(review_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
+# Find and result functions for page "Ravintolahaku"
+
 @app.route("/find_restaurant")
 def find_restaurant():
     return render_template("find_restaurant.html")
@@ -145,6 +160,8 @@ def result():
         return render_template("result.html", results=results)
     return render_template("error.html", txt="Hakusanoillasi ei löytynyt ravintoloita", link="/front", link_txt="Takaisin etusivulle")
 
+# Review function for review page accessed from the frontpage
+
 @app.route("/reviewable")
 def review_restaurant():
     user_id = users.user_id()
@@ -154,11 +171,17 @@ def review_restaurant():
     return render_template("error.html", txt="Et voi arvioida ravintoloita, koska et ole vielä tilannut mistään", 
     link="/front", link_txt="Takaisin etusivulle")
 
+# Admin tools function renders a second navigation page with admin tools
+
 @app.route("/admin_tools")
 def admin_tools():
     if users.is_admin():
         return render_template("admin_tools.html")
     return render_template("error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle")
+
+# Two way too big functions for all the adding tools and deletion tools in admin tools page
+# One add and one delete page used with these functions, and dynamically rendered according 
+# to user selection
 
 @app.route("/add/<element_to_add>", methods=["GET", "POST"])
 def add(element_to_add):

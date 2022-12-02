@@ -99,6 +99,8 @@ def modify_review(review_id, review, stars):
     db.session.execute(sql, {"review":review, "stars":stars, "review_id":review_id, "userid":userid})
     db.session.commit()
 
+# Only restaurants ordered from can be reviewed, thats why the function makes a check in DB
+
 def reviewable_restaurants(user_id):
     sql = """
         SELECT DISTINCT restaurants.name, restaurants.id FROM restaurants, receipts 
