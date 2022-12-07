@@ -24,9 +24,10 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
-        if len(username) < 3 or len(password) < 3 or " " in username or " " in password:
+        if not users.check_text_input(username, 3, 20) or not users.check_text_input(password, 3, 20):
             return render_template("error.html", 
-            txt="Käyttäjätunnuksen ja salasanan pituus tulee olla vähintään 3 merkkiä", link="/register", link_txt="Yritä uudelleen")
+            txt="Käyttäjätunnuksen ja salasanan pituus tulee olla vähintään 3 merkkiä ja maksimissaan 20 merkkiä", 
+            link="/register", link_txt="Yritä uudelleen")
         if password != password2:
             return render_template("error.html", txt="Salasanat eivät täsmää", link="/register", link_txt="Yritä uudelleen")
         if users.register(username,password):
@@ -52,6 +53,9 @@ def confirmation():
     if users.csrf_token() != request.form["csrf_token"]:
         abort(403)
     dish = request.form.getlist("dish")
+    if not dish:
+        return render_template("error.html", txt="Et ole valinnut mitään tilattavaksi.", 
+        link="/front", link_txt="Palaa etusivulle")
     orders = []
     total_price = 0
     for item in dish:
@@ -104,6 +108,10 @@ def review(restaurant_id):
             abort(403)
         stars = int(request.form["rating"])
         review = request.form["text_review"]
+        if not users.check_text_input(review, 0, 500):
+            return render_template("error.html", 
+            txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen", link="/front",
+            link_txt="Palaa etusivulle")
         restaurants.create_review(restaurant_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
 
@@ -155,6 +163,10 @@ def find_restaurant():
 @app.route("/result")
 def result():
     description = request.args["description"]
+    if not users.check_text_input(description, 3, 20):
+        return render_template("error.html", 
+        txt="Voit käyttää hakusanakentässä 3-20 merkkiä", link="/find_restaurant", 
+        link_txt="Yritä uudelleen")
     results = restaurants.find_restaurants(description)
     if results:
         return render_template("result.html", results=results)
