@@ -3,6 +3,11 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 
+def check_text_input(text, min_length, max_length):
+    if len(text) >= min_length and len(text) <= max_length:
+        return True
+    return False
+
 def login(username, password):
     sql ="SELECT id, password, admin FROM users WHERE username = :username AND visible = TRUE"
     result = db.session.execute(sql, {"username":username})
