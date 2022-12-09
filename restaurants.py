@@ -42,8 +42,14 @@ def dish_name(dish_id):
     result = db.session.execute(sql, {"dish_id":dish_id})
     return result.fetchone()
 
-def create_receipt(order_info, restaurant_id, total_price, extra_info):
+def create_receipt(order_info, restaurant_id, extra_info):
     user_id = users.user_id()
+    total_price = 0
+    for item in order_info:
+        dish_id = int(item)
+        sql = "SELECT price FROM dishes WHERE id=:dish_id"
+        result = db.session.execute(sql, {"dish_id":dish_id})
+        total_price += result.fetchone()[0]
     sql = """
         INSERT INTO receipts (restaurant_id, user_id, price, additional_info, created_at) 
         VALUES (:restaurant_id, :user_id, :price, :additional_info, NOW())
