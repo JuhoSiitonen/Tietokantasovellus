@@ -107,14 +107,18 @@ def review(restaurant_id):
     if request.method == "POST":
         if users.csrf_token() != request.form["csrf_token"]:
             abort(403)
+        link = "/front"
+        link_txt = "Palaa etusivulle"
         stars = int(request.form["rating"])
+        if stars < 1 or stars > 5:
+            return render_template("error.html", txt="Soo soo, älä manipuloi keskiarvoja!", link=link, link_txt=link_txt)
         review = request.form["text_review"]
         if not users.check_text_input(review, 0, 500):
             return render_template("error.html", 
-            txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen", link="/front",
-            link_txt="Palaa etusivulle")
+            txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen", link=link,
+            link_txt=link_txt)
         restaurants.create_review(restaurant_id, review, stars)
-        return render_template("error.html", txt="Palaute lähetetty", link="/front", link_txt="Takaisin etusivulle")
+        return render_template("error.html", txt="Palaute lähetetty", link=link, link_txt=link_txt)
 
 # Best reviews function renders the page accessed by clicking "Parhaiten arvostellut ravintolat"
 # on the frontpage and restaurant_reviews shows user the reviews for a chosen restaurant
