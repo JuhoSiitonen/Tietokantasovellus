@@ -25,7 +25,6 @@
 <br>
 <h1>Hinta yhteensä: {{ total_price }}€ </h1>
     <input type="hidden" name="restaurant_id" value="{{ orders[0][3] }}">
-    <input type="hidden" name="total_price" value="{{ total_price }}">
     <input type="hidden" name="extra_info" value="{{ extra_info }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Vahvista tilaus">
