@@ -42,7 +42,7 @@ Lisää annos:
 {% if element == "3" %}
 Lisää ylläpitäjä:
 <form action="/add/admin" method="POST">
-    Käyttäjän nimi:
+    Käyttäjänimi:
     <input type="text" name="user_name" maxlength="20"><br>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää">

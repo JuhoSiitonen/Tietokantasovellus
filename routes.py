@@ -235,11 +235,11 @@ def add_restaurant():
     link = "/admin_tools"
     link_txt ="Palaa ylläpitäjän työkaluihin"
     if not users.check_text_input(restaurant_name, 3, 30):
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
     if not users.check_text_input(restaurant_address, 3, 60):
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Ravintolan osoite voi olla 3-60 merkkiä pitkä", link=link, link_txt=link_txt)
     if len(description) <= 1000:
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Ravintolan kuvaus voi olla maksimissaan 1000 merkkiä", link=link, link_txt=link_txt)
     if admin.add_restaurant(restaurant_name, restaurant_address, description):
         return render_template("error.html", txt="Ravintolan lisäys onnistui!", link=link, link_txt=link_txt)
     return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link=link, link_txt=link_txt)
@@ -251,11 +251,11 @@ def add_dish():
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
     if not users.check_text_input(restaurant_name, 3, 30):
-        return render_template("error.html", txt="Ravintolan nimi on 3-30 merkkiä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä piktä", link=link, link_txt=link_txt)
     if not users.check_text_input(dish_name, 3, 30):
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Annoksen nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
     if not int(price):
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Hinnan tulee olla kokonaisluku :)", link=link, link_txt=link_txt)
     price = int(price)
     restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
     if admin.add_dish(restaurant_id, dish_name, price):
@@ -267,7 +267,7 @@ def add_admin():
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
     if users.check_text_input(user_name, 3, 20):
-        return render_template("error.html", txt="", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Käyttäjänimi voi olla 3-20 merkkiä pitkä", link=link, link_txt=link_txt)
     if admin.add_admin(user_name):
         return render_template("error.html", txt="Ylläpitäjän lisäys onnistui!", link=link, link_txt=link_txt)
     return render_template("error.html", txt="Ylläpitäjän lisäys ei onnistunut", link=link, link_txt=link_txt)
