@@ -27,21 +27,11 @@ Password: Admin
 
 Missing features and issues:
 
--Only elementary html check for user input, except in registering
-
--Only a preliminary CSS style added
-
 -Many dishes can be ordered, but only one of each, needs to be changed
 
 -Prices are only integer type at the moment, same with stars, affects restaurant review average
 
--HTML used in a very very basic way
-
 -Separation of concerns in modules routes, restaurants and users to make them more understandable
-
--Restaurant admin user would be good, at the moment only one kind of admin which controls everything
-
--Confirmation page usage of hidden inputs
 
 - Adding dishes with same name in same restaurant, some changes to DB needs to be done to fix this, especially problematic with deleting items
 
