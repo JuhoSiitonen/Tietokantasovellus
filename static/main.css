@@ -17,12 +17,25 @@ input {
 input:hover {
     cursor:pointer
 }
+h2 {
+    word-wrap: break-word;
+}
 ol {
     display: block;
     list-style-type: none;
+    padding: .5em;
+    background: rgba(255, 255, 255, 0.479);
+    border-radius: .5em;
+    border-bottom-style: double;
+    margin: .5em;
+    text-decoration: none;
+    color: #000;
 }
 ul {
     list-style-type: none;
+}
+li {
+    word-wrap: break-word;
 }
 nav {
     max-width: 25em;
@@ -36,6 +49,7 @@ nav li {
     padding: .5em;
     background: white;
     border-radius: .5em;
+    border-bottom-style: groove;
     margin: .5em;
     text-decoration: none;
     color: #000;
@@ -54,6 +68,9 @@ a:-webkit-any-link {
     font-size:36;
     margin: 20px;
     text-shadow: 2px 2px #00d9ff00;
+}
+#amountnum {
+    width: 2.5em;
 }
 .rating {
     display: flex;
