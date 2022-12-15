@@ -2,13 +2,13 @@ from flask import session
 from db import db
 
 def add_admin(user_name):
-    try:
-        sql = "UPDATE users SET admin=TRUE WHERE username = :user_name"
-        db.session.execute(sql, {"user_name":user_name})
-        db.session.commit()
-    except:
-        return False
-    return True
+    sql = "UPDATE users SET admin=TRUE WHERE username = :user_name RETURNING id"
+    result = db.session.execute(sql, {"user_name":user_name})
+    db.session.commit()
+    user = result.fetchone()
+    if user:
+        return True
+    return False
 
 def add_restaurant(restaurant_name, restaurant_address, description):
     try:
@@ -50,14 +50,22 @@ def delete_restaurant(restaurant_id):
     return False
 
 def delete_dish(dish_id):
-    sql = "UPDATE dishes SET visible=FALSE WHERE id = :dish_id"
-    db.session.execute(sql, {"dish_id":dish_id})
+    sql = "UPDATE dishes SET visible=FALSE WHERE id = :dish_id RETURNING id"
+    result = db.session.execute(sql, {"dish_id":dish_id})
     db.session.commit()
+    dish = result.fetchone()
+    if dish:
+        return True
+    return False
 
 def delete_user(user_id):
-    sql = "UPDATE users SET visible=FALSE WHERE id = :user_id"
-    db.session.execute(sql, {"user_id":user_id})
+    sql = "UPDATE users SET visible=FALSE WHERE id = :user_id RETURNING id"
+    result = db.session.execute(sql, {"user_id":user_id})
     db.session.commit()
+    user = result.fetchone()
+    if user:
+        return True
+    return False
 
 def get_user_id(username):
     sql = "SELECT id FROM users WHERE username = :username"
