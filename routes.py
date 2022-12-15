@@ -297,36 +297,44 @@ def delete(element_to_delete):
             return delete_review()
 
 def delete_user():
+    link = "/admin_tools"
+    link_txt = "Palaa ylläpitäjän työkaluihin"
     username = request.form["username"]
     user_id = admin.get_user_id(username)
     if user_id != 0:
         admin.delete_user(user_id)
-        return render_template("error.html", txt="Käyttäjän poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
-    return render_template("error.html", txt="Käyttäjän poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        return render_template("error.html", txt="Käyttäjän poistaminen onnistui", link=link, link_txt=link_txt)
+    return render_template("error.html", txt="Käyttäjän poistaminen ei onnistunut", link=link, link_txt=link_txt)
 
 def delete_restaurant():
+    link = "/admin_tools"
+    link_txt = "Palaa ylläpitäjän työkaluihin"
     restaurant_name = request.form["restaurant_name"]
     restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
     if restaurant_id != 0:
         admin.delete_restaurant(restaurant_id)
-        return render_template("error.html", txt="Ravintolan poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
-    return render_template("error.html", txt="Ravintolan poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        return render_template("error.html", txt="Ravintolan poistaminen onnistui", link=link, link_txt=link_txt)
+    return render_template("error.html", txt="Ravintolan poistaminen ei onnistunut", link=link, link_txt=link_txt)
 
 def delete_dish():
+    link = "/admin_tools"
+    link_txt = "Palaa ylläpitäjän työkaluihin"
     restaurant_name = request.form["restaurant_name"]
     restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
     dish_name = request.form["dish_name"]
     dish_id = restaurants.get_dish_id(restaurant_id, dish_name)[0]
     if restaurant_id != 0 and dish_id != 0:
         admin.delete_dish(dish_id)
-        return render_template("error.html", txt="Annoksen poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
-    return render_template("error.html", txt="Annoksen poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        return render_template("error.html", txt="Annoksen poistaminen onnistui", link=link, link_txt=link_txt)
+    return render_template("error.html", txt="Annoksen poistaminen ei onnistunut", link=link, link_txt=link_txt)
                         
 def delete_review():
+    link = "/admin_tools"
+    link_txt "Palaa ylläpitäjän työkaluihin"
     review_id = request.form["review_id"]
     if admin.delete_reviews(review_id):
-        return render_template("error.html", txt="Arvion poistaminen onnistui", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
-    return render_template("error.html", txt="Arvion poistaminen ei onnistunut", link="/admin_tools", link_txt="Palaa ylläpitäjän työkaluihin")
+        return render_template("error.html", txt="Arvion poistaminen onnistui", link=link, link_txt=link_txt)
+    return render_template("error.html", txt="Arvion poistaminen ei onnistunut", link=link, link_txt=link_txt)
 
 @app.route("/logout")
 def logout():

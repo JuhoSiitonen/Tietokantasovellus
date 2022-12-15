@@ -32,14 +32,22 @@ def add_dish(restaurant_id, dish_name, price):
     return True
 
 def delete_reviews(review_id):
-    sql = "UPDATE reviews SET visible=FALSE WHERE id = :review_id"
-    db.session.execute(sql, {"review_id":review_id})
+    sql = "UPDATE reviews SET visible=FALSE WHERE id = :review_id RETURNING id"
+    result = db.session.execute(sql, {"review_id":review_id})
     db.session.commit()
+    review = result.fetchone()
+    if review:
+        return True
+    return False
 
 def delete_restaurant(restaurant_id):
-    sql = "UPDATE restaurants SET visible=FALSE WHERE id = :restaurant_id"
-    db.session.execute(sql, {"restaurant_id":restaurant_id})
+    sql = "UPDATE restaurants SET visible=FALSE WHERE id = :restaurant_id RETURNING id"
+    result = db.session.execute(sql, {"restaurant_id":restaurant_id})
     db.session.commit()
+    restaurant = result.fetchone()
+    if restaurant:
+        return True
+    return False
 
 def delete_dish(dish_id):
     sql = "UPDATE dishes SET visible=FALSE WHERE id = :dish_id"
