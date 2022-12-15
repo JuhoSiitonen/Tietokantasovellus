@@ -266,7 +266,7 @@ def add_admin():
     user_name = request.form["user_name"]
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
-    if users.check_text_input(user_name, 3, 20):
+    if not users.check_text_input(user_name, 3, 20):
         return render_template("error.html", txt="Käyttäjänimi voi olla 3-20 merkkiä pitkä", link=link, link_txt=link_txt)
     if admin.add_admin(user_name):
         return render_template("error.html", txt="Ylläpitäjän lisäys onnistui!", link=link, link_txt=link_txt)
@@ -330,7 +330,7 @@ def delete_dish():
                         
 def delete_review():
     link = "/admin_tools"
-    link_txt "Palaa ylläpitäjän työkaluihin"
+    link_txt = "Palaa ylläpitäjän työkaluihin"
     review_id = request.form["review_id"]
     if admin.delete_reviews(review_id):
         return render_template("error.html", txt="Arvion poistaminen onnistui", link=link, link_txt=link_txt)
