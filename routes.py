@@ -21,18 +21,20 @@ def register():
     if request.method =="GET":
         return render_template("register.html")
     if request.method =="POST":
+        link = "/register"
+        link_txt = "Yritä uudelleen"
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
         if not users.check_text_input(username, 3, 20) or not users.check_text_input(password, 3, 20):
             return render_template("error.html", 
             txt="Käyttäjätunnuksen ja salasanan pituus tulee olla vähintään 3 merkkiä ja maksimissaan 20 merkkiä", 
-            link="/register", link_txt="Yritä uudelleen")
+            link=link, link_txt=link_txt)
         if password != password2:
-            return render_template("error.html", txt="Salasanat eivät täsmää", link="/register", link_txt="Yritä uudelleen")
+            return render_template("error.html", txt="Salasanat eivät täsmää", link=link, link_txt=link_txt)
         if users.register(username,password):
             return render_template("front.html")
-        return render_template("error.html", txt="Rekisteröinti ei onnistunut", link="/register", link_txt="Yritä uudelleen")
+        return render_template("error.html", txt="Rekisteröinti ei onnistunut", link=link, link_txt=link_txt)
 
 # Next four functions render the pages when clicking "Ravintolat lähelläsi"
 # from the frontpage. 
@@ -64,7 +66,8 @@ def confirmation():
         total_price += order[2]
     extra_info = request.form["message"]
     if len(extra_info) >= 500:
-        return render_template("error.html", txt="Erikoistiedoissa voi olla enintään 500 merkkiä", link="/front", link_txt="Palaa etusivulle")
+        return render_template("error.html", txt="Erikoistiedoissa voi olla enintään 500 merkkiä", 
+        link="/front", link_txt="Palaa etusivulle")
     return render_template("confirmation.html", orders=orders, extra_info=extra_info, total_price=total_price)
 
 @app.route("/receipt", methods=["POST"])
@@ -251,11 +254,11 @@ def add_dish():
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
     if not users.check_text_input(restaurant_name, 3, 30):
-        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä piktä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
     if not users.check_text_input(dish_name, 3, 30):
         return render_template("error.html", txt="Annoksen nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
-    if not int(price):
-        return render_template("error.html", txt="Hinnan tulee olla kokonaisluku :)", link=link, link_txt=link_txt)
+    if not users.check_text_input(price, 1, 9, True):
+        return render_template("error.html", txt="Hinnan tulee olla kokonaisluku joka on 1-9 merkkiä pitkä", link=link, link_txt=link_txt)
     price = int(price)
     restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
     if admin.add_dish(restaurant_id, dish_name, price):
