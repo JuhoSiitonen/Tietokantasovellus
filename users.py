@@ -6,8 +6,7 @@ from db import db
 def check_text_input(text, min_length, max_length, numeric=False):
     if numeric:
         try:
-            if int(text):
-                return True
+            temp = int(text)
         except:
             return False
     if len(text) >= min_length and len(text) <= max_length and not text.isspace():
