@@ -65,7 +65,7 @@ def confirmation():
         orders.append(order)
         total_price += order[2]
     extra_info = request.form["message"]
-    if len(extra_info) >= 500:
+    if len(extra_info) > 500:
         return render_template("error.html", txt="Erikoistiedoissa voi olla enintään 500 merkkiä", 
         link="/front", link_txt="Palaa etusivulle")
     return render_template("confirmation.html", orders=orders, extra_info=extra_info, total_price=total_price)
