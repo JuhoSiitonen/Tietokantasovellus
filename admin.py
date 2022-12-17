@@ -1,4 +1,3 @@
-from flask import session
 from db import db
 
 def add_admin(user_name):
@@ -16,7 +15,8 @@ def add_restaurant(restaurant_name, restaurant_address, description):
             INSERT INTO restaurants (name, description, visible, address) 
             VALUES (:restaurant_name, :description, TRUE, :restaurant_address)
             """
-        db.session.execute(sql, {"restaurant_name":restaurant_name, "description":description, "restaurant_address":restaurant_address})
+        db.session.execute(sql, {"restaurant_name":restaurant_name, "description":description,
+        "restaurant_address":restaurant_address})
         db.session.commit()
     except:
         return False
@@ -24,14 +24,17 @@ def add_restaurant(restaurant_name, restaurant_address, description):
 
 def add_dish(restaurant_id, dish_name, price):
     try:
-        sql = "INSERT INTO dishes (restaurant_id, dish_name, visible, price) VALUES (:restaurant_id, :dish_name, TRUE, :price)"
+        sql = """
+        INSERT INTO dishes (restaurant_id, dish_name, visible, price) 
+        VALUES (:restaurant_id, :dish_name, TRUE, :price)
+        """
         db.session.execute(sql, {"restaurant_id":restaurant_id, "dish_name":dish_name, "price":price})
         db.session.commit()
     except:
         return False
     return True
 
-# Deletions are done by updating database column Visible to False. 
+# Deletions are done by updating database column Visible to False.
 
 def delete_reviews(review_id):
     sql = "UPDATE reviews SET visible=FALSE WHERE id = :review_id RETURNING id"
