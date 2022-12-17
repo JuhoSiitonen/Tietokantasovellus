@@ -31,6 +31,8 @@ def add_dish(restaurant_id, dish_name, price):
         return False
     return True
 
+# Deletions are done by updating database column Visible to False. 
+
 def delete_reviews(review_id):
     sql = "UPDATE reviews SET visible=FALSE WHERE id = :review_id RETURNING id"
     result = db.session.execute(sql, {"review_id":review_id})
