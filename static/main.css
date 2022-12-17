@@ -31,6 +31,9 @@ ol {
     text-decoration: none;
     color: #000;
 }
+p {
+    word-wrap: break-word;
+}
 ul {
     list-style-type: none;
 }

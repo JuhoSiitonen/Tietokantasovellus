@@ -242,7 +242,7 @@ def add_restaurant():
         return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
     if not users.check_text_input(restaurant_address, 3, 60):
         return render_template("error.html", txt="Ravintolan osoite voi olla 3-60 merkkiä pitkä", link=link, link_txt=link_txt)
-    if len(description) < 1000:
+    if len(description) > 1000:
         return render_template("error.html", txt="Ravintolan kuvaus voi olla maksimissaan 1000 merkkiä", link=link, link_txt=link_txt)
     if admin.add_restaurant(restaurant_name, restaurant_address, description):
         return render_template("error.html", txt="Ravintolan lisäys onnistui!", link=link, link_txt=link_txt)
