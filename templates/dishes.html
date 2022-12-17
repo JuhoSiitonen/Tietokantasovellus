@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Ravintolat</title>
@@ -15,10 +12,10 @@
         <input type="checkbox" name="dish" value="{{ item.id }}"> {{ item.dish_name }} {{ item.price }}€
     </li>
 {% endfor %}
-<br> Erikoistoiveet: <br>
-<textarea name="message" rows="3" cols="50" maxlength="500"></textarea> <br>
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<input type="submit" value="Tilaa">
+    <br> Erikoistoiveet: <br>
+    <textarea name="message" rows="3" cols="50" maxlength="500"></textarea> <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Tilaa">
 </form>
 <br>
 <a href="/front">Palaa takaisin etusivulle</a>

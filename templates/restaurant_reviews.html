@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id and session.user_role %}
 <title>Arvostelut</title>
 <h1>Ravintolan {{ reviews[0].name }} arvostelut:</h1>
-<br>
-<br>
+<br><br>
 {% for item in reviews %}
 <ol>
     <li>
@@ -17,15 +13,13 @@
     </li>
 </ol>
 {% endfor %}
-<br>
-<br>
+<br><br>
 <a href="/front">Palaa takaisin etusivulle</a>
 
 {% elif session.user_id %}
 <title>Arvostelut</title>
 <h1>Ravintolan {{ reviews[0].name }} arvostelut:</h1>
-<br>
-<br>
+<br><br>
 {% for item in reviews %}
 <ol>
     <li>
@@ -33,12 +27,10 @@
     </li>
 </ol>
 {% endfor %}
-<br>
-<br>
+<br><br>
 <a href="/front">Palaa takaisin etusivulle</a>
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
-
 {% endif %}
 {% endblock %}

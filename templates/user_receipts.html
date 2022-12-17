@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Tilaukset</title>
@@ -19,8 +16,7 @@ Valitse haluamasi tilaus mikäli haluat tarkastella sen sisältöä
     </li>
 </ol>
 {% endfor %}
-<br>
-<br>
+<br><br>
 <a href="/front">Palaa takaisin etusivulle</a>
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>

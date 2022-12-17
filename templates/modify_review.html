@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Arvostele ravintola</title>
-<h1></h1>
 <p> Arvostele </p>
 <br>
 <form action="/modify_review/{{ review_id }}" method="POST">
@@ -17,18 +13,16 @@
         <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
         <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
         <input type="radio" name="rating" value="1" checked id="1"><label for="1">☆</label>
-      </div>
-      <br>
-      <textarea name="text_review" rows="3" cols="50"></textarea>
-      <br>
-      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<input type="submit" value="Lähetä">
+    </div>
+    <br>
+    <textarea name="text_review" rows="3" cols="50"></textarea>
+    <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Lähetä">
 </form>
 <br>
 <a href="/front">Palaa etusivulle</a>
 <br>
-
-
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}

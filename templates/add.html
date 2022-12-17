@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id and session.user_role %}
 <title>ZWOLT</title>
 <h1>Ylläpitäjän työkalut</h1>
 <br>
-
 {% if element == "1" %}
 Lisää ravintola:
 <form action="/add/restaurant" method="POST">
@@ -55,5 +51,4 @@ Lisää ylläpitäjä:
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}
-
 {% endblock %}

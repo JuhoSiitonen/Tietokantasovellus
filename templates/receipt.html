@@ -1,21 +1,16 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Kuitti</title>
 <h1>Tilauksesi on vahvistettu</h1> 
 <br>
 Tilauksesi on matkalla!
-<br>
-<br>
+<br><br>
 <a href="/front">Palaa etusivulle</a>
 <br>
 <a href="/review/{{ receipt }}">Jätä arvostelu ravintolalle</a>
-
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}

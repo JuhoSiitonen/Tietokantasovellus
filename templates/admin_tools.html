@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id and session.user_role %}
 <title>ZWOLT</title>
@@ -25,5 +22,4 @@
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>
 {% endif %}
-
 {% endblock %}

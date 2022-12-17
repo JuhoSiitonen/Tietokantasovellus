@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Arvostele ravintola</title>
@@ -16,7 +13,7 @@
         <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
         <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
         <input type="radio" name="rating" value="1" checked id="1"><label for="1">☆</label>
-      </div>
+    </div>
     <br>
     <textarea name="text_review" rows="3" cols="50" maxlength="1000"></textarea>
     <br>
@@ -26,7 +23,6 @@
 <br>
 <a href="/front">Palaa etusivulle</a>
 <br>
-
 
 {% else %}
 <a href="/">Kirjaudu sisään tästä</a>

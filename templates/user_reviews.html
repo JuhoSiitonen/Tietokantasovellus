@@ -1,21 +1,15 @@
 {% extends 'base.html' %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block body %}
 {% if session.user_id %}
 <title>Arviot</title>
 <h1></h1>
 <br>
 <h1>Omat arvosteluni:</h1>
-<br>
-<br>
+<br><br>
 Jos haluat muokata arvostelua klikkaa valitse
-<br>
-<br>
-
+<br><br>
 {% for item in reviews %}
 <ol>
     <li>
