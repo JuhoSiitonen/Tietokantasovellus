@@ -13,7 +13,9 @@ def front():
         password = request.form["password"]
         if users.login(username, password):
             return render_template("front.html")
-        return render_template("error.html", txt="Käyttäjätunnusta ei löydy", link="/", link_txt="Yritä uudelleen")
+        return render_template(
+            "error.html", txt="Käyttäjätunnusta ei löydy", link="/", link_txt="Yritä uudelleen"
+            )
     return render_template("front.html")
 
 @app.route("/register", methods=["GET","POST"])
@@ -26,18 +28,23 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
-        if not users.check_text_input(username, 3, 20) or not users.check_text_input(password, 3, 20):
-            return render_template("error.html", 
-            txt="Käyttäjätunnuksen ja salasanan pituus tulee olla vähintään 3 merkkiä ja maksimissaan 20 merkkiä", 
-            link=link, link_txt=link_txt)
+        if not users.check_text_input(username,3,20) or not users.check_text_input(password,3,20):
+            return render_template(
+                "error.html", txt="Käyttäjätunnuksen ja salasanan pituus tulee olla " \
+                "vähintään 3 merkkiä ja maksimissaan 20 merkkiä", link=link, link_txt=link_txt
+                )
         if password != password2:
-            return render_template("error.html", txt="Salasanat eivät täsmää", link=link, link_txt=link_txt)
+            return render_template(
+                "error.html", txt="Salasanat eivät täsmää", link=link, link_txt=link_txt
+                )
         if users.register(username,password):
             return render_template("front.html")
-        return render_template("error.html", txt="Rekisteröinti ei onnistunut", link=link, link_txt=link_txt)
+        return render_template(
+            "error.html", txt="Rekisteröinti ei onnistunut", link=link, link_txt=link_txt
+            )
 
 # Next four functions render the pages when clicking "Ravintolat lähelläsi"
-# from the frontpage. 
+# from the frontpage.
 
 @app.route("/restaurants")
 def restaurant():
@@ -56,7 +63,7 @@ def confirmation():
         abort(403)
     dish = request.form.getlist("dish")
     if not dish:
-        return render_template("error.html", txt="Et ole valinnut mitään tilattavaksi.", 
+        return render_template("error.html", txt="Et ole valinnut mitään tilattavaksi.",
         link="/front", link_txt="Palaa etusivulle")
     orders = []
     total_price = 0
@@ -66,9 +73,11 @@ def confirmation():
         total_price += order[2]
     extra_info = request.form["message"]
     if len(extra_info) > 500:
-        return render_template("error.html", txt="Erikoistiedoissa voi olla enintään 500 merkkiä", 
+        return render_template("error.html", txt="Erikoistiedoissa voi olla enintään 500 merkkiä",
         link="/front", link_txt="Palaa etusivulle")
-    return render_template("confirmation.html", orders=orders, extra_info=extra_info, total_price=total_price)
+    return render_template(
+        "confirmation.html", orders=orders, extra_info=extra_info, total_price=total_price
+        )
 
 @app.route("/receipt", methods=["POST"])
 def receipt():
@@ -85,11 +94,15 @@ def receipt():
 
 @app.route("/receipts/<user_id>")
 def receipt_archive(user_id):
+    link = "/front"
+    link_txt = "Palaa etusivulle"
     if int(user_id) != users.user_id():
-        return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
+        return render_template("error.html", txt="", link=link, link_txt=link_txt)
     receipts = users.user_receipts(user_id)
     if not receipts:
-        return render_template("error.html", txt="Et ole tehnyt tilauksia", link="/front", link_txt="Takaisin etusivulle")
+        return render_template(
+            "error.html", txt="Et ole tehnyt tilauksia", link=link, link_txt=link_txt
+            )
     return render_template("user_receipts.html", receipts=receipts)
 
 @app.route("/receipt/<receipt_id>")
@@ -114,12 +127,15 @@ def review(restaurant_id):
         link_txt = "Takaisin etusivulle"
         stars = int(request.form["rating"])
         if stars < 1 or stars > 5:
-            return render_template("error.html", txt="Soo soo, älä manipuloi keskiarvoja!", link=link, link_txt=link_txt)
+            return render_template(
+                "error.html", txt="Soo soo, älä manipuloi keskiarvoja", link=link, link_txt=link_txt
+                )
         review = request.form["text_review"]
         if not users.check_text_input(review, 0, 500):
-            return render_template("error.html", 
-            txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen", link=link,
-            link_txt=link_txt)
+            return render_template(
+                "error.html", txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen",
+                link=link, link_txt=link_txt
+                )
         restaurants.create_review(restaurant_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link=link, link_txt=link_txt)
 
@@ -141,11 +157,15 @@ def restaurant_reviews(restaurant_id):
 
 @app.route("/reviews/<user_id>")
 def user_reviews(user_id):
+    link = "/front"
+    link_txt = "Palaa etusivulle"
     if int(user_id) != users.user_id():
-        return render_template("error.html", txt="", link="/front", link_txt="Palaa etusivulle")
+        return render_template("error.html", txt="", link=link, link_txt=link_txt)
     reviews = users.user_reviews(user_id)
     if not reviews:
-        return render_template("error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link="/front", link_txt="Takaisin etusivulle")
+        return render_template(
+            "error.html", txt="Et ole tehnyt vielä yhtään arvostelua", link=link, link_txt=link_txt
+            )
     return render_template("user_reviews.html", reviews=reviews)
 
 @app.route("/modify_review/<review_id>", methods=["GET", "POST"])
@@ -161,12 +181,15 @@ def modify_review(review_id):
             abort(403)
         stars = int(request.form["rating"])
         if stars < 1 or stars > 5:
-            return render_template("error.html", txt="Soo soo, älä manipuloi keskiarvoja!", link=link, link_txt=link_txt)
+            return render_template(
+                "error.html", txt="Soo soo, älä manipuloi keskiarvoja", link=link, link_txt=link_txt
+                )
         review = request.form["text_review"]
         if not users.check_text_input(review, 0, 500):
-            return render_template("error.html", 
-            txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen", link=link,
-            link_txt=link_txt)
+            return render_template(
+                "error.html", txt="Voit lähettää maksimissaan 500 merkin sanallisen palautteen",
+                link=link, link_txt=link_txt
+                )
         users.modify_review(review_id, review, stars)
         return render_template("error.html", txt="Palaute lähetetty", link=link, link_txt=link_txt)
 
@@ -180,14 +203,17 @@ def find_restaurant():
 def result():
     description = request.args["description"]
     if not users.check_text_input(description, 3, 20):
-        return render_template("error.html", 
-        txt="Voit käyttää hakusanakentässä 3-20 merkkiä", link="/find_restaurant", 
-        link_txt="Yritä uudelleen")
+        return render_template(
+            "error.html", txt="Voit käyttää hakusanakentässä 3-20 merkkiä",
+            link="/find_restaurant", link_txt="Yritä uudelleen"
+            )
     results = restaurants.find_restaurants(description)
     if results:
         return render_template("result.html", results=results)
-    return render_template("error.html", txt="Hakusanoillasi ei löytynyt ravintoloita", 
-    link="/front", link_txt="Takaisin etusivulle")
+    return render_template(
+        "error.html", txt="Hakusanoillasi ei löytynyt ravintoloita", link="/front",
+        link_txt="Takaisin etusivulle"
+        )
 
 # Review function for review page accessed from the frontpage
 
@@ -197,8 +223,10 @@ def review_restaurant():
     listing = users.reviewable_restaurants(user_id)
     if listing:
         return render_template("reviewable.html", listing=listing)
-    return render_template("error.html", txt="Et voi arvioida ravintoloita, koska et ole vielä tilannut mistään", 
-    link="/front", link_txt="Takaisin etusivulle")
+    return render_template(
+        "error.html", txt="Et voi arvioida ravintoloita, koska et ole vielä tilannut mistään",
+        link="/front", link_txt="Takaisin etusivulle"
+        )
 
 # Admin tools function renders a second navigation page with admin tools
 
@@ -206,10 +234,12 @@ def review_restaurant():
 def admin_tools():
     if users.is_admin():
         return render_template("admin_tools.html")
-    return render_template("error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle")
+    return render_template(
+        "error.html", txt="Jotain meni pieleen", link="/front", link_txt="Takaisin etusivulle"
+        )
 
 # Two functions for all the adding tools and deletion tools in admin tools page
-# One add and one delete page used with these functions, and dynamically rendered according 
+# One add and one delete page used with these functions, and dynamically rendered according
 # to user selection with functions below the view function
 
 @app.route("/add/<element_to_add>", methods=["GET", "POST"])
@@ -238,15 +268,20 @@ def add_restaurant():
     description = request.form["description"]
     link = "/admin_tools"
     link_txt ="Palaa ylläpitäjän työkaluihin"
+    name_error = "Ravintolan nimi voi olla 3-30 merkkiä pitkä"
+    address_error = "Ravintolan osoite voi olla 3-60 merkkiä pitkä"
+    desc_error = "Ravintolan kuvaus voi olla maksimissaan 1000 merkkiä"
+    add_success = "Ravintolan lisäys onnistui!"
+    add_failure = "Ravintolan lisäys ei onnistunut"
     if not users.check_text_input(restaurant_name, 3, 30):
-        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=name_error, link=link, link_txt=link_txt)
     if not users.check_text_input(restaurant_address, 3, 60):
-        return render_template("error.html", txt="Ravintolan osoite voi olla 3-60 merkkiä pitkä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=address_error, link=link, link_txt=link_txt)
     if len(description) > 1000:
-        return render_template("error.html", txt="Ravintolan kuvaus voi olla maksimissaan 1000 merkkiä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=desc_error, link=link, link_txt=link_txt)
     if admin.add_restaurant(restaurant_name, restaurant_address, description):
-        return render_template("error.html", txt="Ravintolan lisäys onnistui!", link=link, link_txt=link_txt)
-    return render_template("error.html", txt="Ravintolan lisäys ei onnistunut", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=add_success, link=link, link_txt=link_txt)
+    return render_template("error.html", txt=add_failure, link=link, link_txt=link_txt)
 
 def add_dish():
     restaurant_name = request.form["restaurant_name"]
@@ -254,17 +289,22 @@ def add_dish():
     price = request.form["price"]
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
+    name_error = "Ravintolan nimi voi olla 3-30 merkkiä pitkä"
+    dish_error = "Annoksen nimi voi olla 3-30 merkkiä pitkä"
+    price_error = "Hinnan tulee olla kokonaisluku joka on 1-9 merkkiä pitkä"
+    add_success = "Annoksen lisäys onnistui!"
+    add_failure = "Annoksen lisäys ei onnistunut"
     if not users.check_text_input(restaurant_name, 3, 30):
-        return render_template("error.html", txt="Ravintolan nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=name_error, link=link, link_txt=link_txt)
     if not users.check_text_input(dish_name, 3, 30):
-        return render_template("error.html", txt="Annoksen nimi voi olla 3-30 merkkiä pitkä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=dish_error, link=link, link_txt=link_txt)
     if not users.check_text_input(price, 1, 9, True):
-        return render_template("error.html", txt="Hinnan tulee olla kokonaisluku joka on 1-9 merkkiä pitkä", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=price_error, link=link, link_txt=link_txt)
     price = int(price)
     restaurant_id = restaurants.get_restaurant_id(restaurant_name)[0]
     if admin.add_dish(restaurant_id, dish_name, price):
-        return render_template("error.html", txt="Annoksen lisäys onnistui!", link=link, link_txt=link_txt)
-    return render_template("error.html", txt="Annoksen lisäys ei onnistunut", link=link, link_txt=link_txt)
+        return render_template("error.html", txt=add_success, link=link, link_txt=link_txt)
+    return render_template("error.html", txt=add_failure, link=link, link_txt=link_txt)
 
 def add_admin():
     user_name = request.form["user_name"]
