@@ -265,8 +265,8 @@ def add_restaurant():
     description = request.form["description"]
     link = "/admin_tools"
     link_txt ="Palaa ylläpitäjän työkaluihin"
-    name_error = "Ravintolan nimi voi olla 3-30 merkkiä pitkä"
-    address_error = "Ravintolan osoite voi olla 3-60 merkkiä pitkä"
+    name_error = "Ravintolan nimi tulee olla 3-30 merkkiä pitkä"
+    address_error = "Ravintolan osoite tulee olla 3-60 merkkiä pitkä"
     desc_error = "Ravintolan kuvaus voi olla maksimissaan 1000 merkkiä"
     add_success = "Ravintolan lisäys onnistui!"
     add_failure = "Ravintolan lisäys ei onnistunut"
@@ -286,8 +286,8 @@ def add_dish():
     price = request.form["price"]
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
-    name_error = "Ravintolan nimi voi olla 3-30 merkkiä pitkä"
-    dish_error = "Annoksen nimi voi olla 3-30 merkkiä pitkä"
+    name_error = "Ravintolan nimi tulee olla 3-30 merkkiä pitkä"
+    dish_error = "Annoksen nimi tulee olla 3-30 merkkiä pitkä"
     price_error = "Hinnan tulee olla kokonaisluku joka on 1-9 merkkiä pitkä"
     add_success = "Annoksen lisäys onnistui!"
     add_failure = "Annoksen lisäys ei onnistunut"
@@ -307,7 +307,7 @@ def add_admin():
     user_name = request.form["user_name"]
     link = "/admin_tools"
     link_txt = "Palaa ylläpitäjän työkaluihin"
-    name_error = "Käyttäjänimi voi olla 3-20 merkkiä pitkä"
+    name_error = "Käyttäjänimi tulee olla 3-20 merkkiä pitkä"
     success = "Ylläpitäjän lisäys onnistui!"
     failure ="Ylläpitäjän lisäys ei onnistunut"
     if not users.check_text_input(user_name, 3, 20):
