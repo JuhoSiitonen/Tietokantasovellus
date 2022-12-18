@@ -106,7 +106,7 @@ def modify_review(review_id, review, stars):
         UPDATE reviews SET review = :review, stars = :stars 
         WHERE id = :review_id AND user_id = :userid
         """
-    db.session.execute(sql, {"review":review, "stars":stars, "review_id":review_id, "userid":userid})
+    db.session.execute(sql,{"review":review, "stars":stars, "review_id":review_id, "userid":userid})
     db.session.commit()
 
 # Only restaurants ordered from can be reviewed, thats why the function makes a check in DB

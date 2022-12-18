@@ -55,7 +55,10 @@ def create_receipt(order_info, restaurant_id, extra_info):
         VALUES (:restaurant_id, :user_id, :price, :additional_info, NOW())
         RETURNING id
         """
-    result = db.session.execute(sql, {"restaurant_id":restaurant_id, "user_id":user_id, "price":total_price, "additional_info":extra_info})
+    result = db.session.execute(sql, {
+        "restaurant_id":restaurant_id, "user_id":user_id, "price":total_price,
+        "additional_info":extra_info
+        })
     receipt_id = (result.fetchone())[0]
     for item in order_info:
         dish_id = int(item)
@@ -70,7 +73,9 @@ def create_review(restaurant_id, review, stars):
         INSERT INTO reviews (user_id, restaurant_id, stars, review, visible, created_at) 
         VALUES (:user_id, :restaurant_id, :stars, :review, TRUE, NOW())
         """
-    db.session.execute(sql, {"user_id":user_id, "restaurant_id":restaurant_id, "stars":stars, "review":review})
+    db.session.execute(sql, {
+        "user_id":user_id, "restaurant_id":restaurant_id, "stars":stars, "review":review
+        })
     db.session.commit()
 
 def best_reviews():
@@ -81,7 +86,7 @@ def best_reviews():
         GROUP BY restaurants.name, restaurants.id ORDER BY rating DESC LIMIT 10
         """
     result = db.session.execute(sql)
-    return result.fetchall() 
+    return result.fetchall()
 
 def restaurant_reviews(restaurant_id):
     sql ="""
@@ -94,7 +99,8 @@ def restaurant_reviews(restaurant_id):
     return result.fetchall()
 
 def find_restaurants(description):
-    sql = "SELECT id, name, address, description FROM restaurants WHERE description LIKE :description"
+    sql = """
+        SELECT id, name, address, description FROM restaurants WHERE description LIKE :description
+        """
     result = db.session.execute(sql, {"description":"%"+description+"%"})
     return result.fetchall()
-
